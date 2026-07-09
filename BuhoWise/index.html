@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuhoWise - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6B4EFF;
+            --primary-dark: #5537e6;
+            --light-purple: #F5F2FF;
+            --dark: #2D2D35;
+            --gray: #6c757d;
+            --bg-light: #fdfdfd;
+            --card-border: #ece8ff;
+            --nav-footer-dark: #1a1824; /* Color oscuro unificado */
+        }
+
+        /* Variables para el Modo Oscuro */
+        .dark-mode {
+            --bg-light: #121214;
+            --dark: #f5f5f7;
+            --light-purple: #221a44;
+            --card-border: #322760;
+            background-color: var(--bg-light) !important;
+            color: var(--dark) !important;
+        }
+
+        /* Variables para Alto Contraste */
+        .high-contrast {
+            --primary: #ffff00;
+            --primary-dark: #ffff00;
+            --bg-light: #000000;
+            --dark: #ffffff;
+            --light-purple: #000000;
+            --card-border: #ffffff;
+            background-color: var(--bg-light) !important;
+            color: var(--dark) !important;
+        }
+
+        .dyslexia * {
+            font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* =======================
+        NAVBAR
+        ======================= */
+        .navbar {
+            background: var(--nav-footer-dark);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            padding: 0;
+        }
+
+        .navbar-brand img {
+            height: 55px; 
+            width: auto;
+            border-radius: 8px;
+            background: white;
+            padding: 2px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            margin-left: 10px;
+            margin-right: 10px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: var(--primary); /* LÃ­nea morada al pasar el cursor */
+            transition: .3s;
+            border-radius: 10px;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        /* BotÃ³n Crear Cuenta adaptado al nuevo menÃº */
+        .btn-nav-account {
+            background: var(--primary);
+            color: white !important;
+            font-weight: 700;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: .3s;
+            box-shadow: 0 4px 10px rgba(107, 78, 255, 0.2);
+            display: inline-block;
+        }
+
+        .btn-nav-account:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+            padding: 6px 12px;
+        }
+        
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        /* =======================
+        BOTONES GENERALES
+        ======================= */
+        .btn-main {
+            background: var(--primary);
+            color: white !important;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: .3s;
+            box-shadow: 0 4px 15px rgba(107, 78, 255, 0.3);
+        }
+
+        .btn-main:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(107, 78, 255, 0.4);
+        }
+
+        .btn-outline-main {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .btn-outline-main:hover {
+            background: var(--primary);
+            color: white !important;
+            transform: translateY(-3px);
+        }
+
+        /* =======================
+        HERO SECTION
+        ======================= */
+        .hero {
+            padding: 100px 0 60px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 90% 10%, #f5f2ff 0%, var(--bg-light) 60%);
+        }
+
+        .hero-title {
+            font-size: 4.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero-title span {
+            color: var(--primary);
+        }
+
+        .hero-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--dark);
+            opacity: 0.85;
+            max-width: 550px;
+            margin-bottom: 35px;
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, #e0d7ff 0%, #b5a2ff 100%);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            animation: morphing 10s infinite alternate;
+        }
+
+        @keyframes morphing {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+        }
+
+        /* =======================
+        TARJETAS GENERALES
+        ======================= */
+        .glow-card, .subject-card, .step-card {
+            background: var(--bg-light);
+            border-radius: 24px;
+            padding: 35px;
+            height: 100%;
+            border: 1px solid var(--card-border);
+            transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,.02);
+        }
+
+        .glow-card:hover, .subject-card:hover, .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(107,78,255,.15);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* FEATURED QUIZ */
+        .featured-quiz {
+            background: linear-gradient(135deg, #6B4EFF, #8B75FF);
+            padding: 60px;
+            border-radius: 32px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(107,78,255,.30);
+        }
+
+        .featured-quiz .btn-light {
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            padding: 14px 35px;
+            border-radius: 50px;
+            border: none;
+            transition: 0.3s;
+        }
+        .featured-quiz .btn-light:hover {
+            transform: scale(1.05);
+        }
+
+        /* SECCIONES */
+        .section-space {
+            padding: 90px 0;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--dark);
+            opacity: 0.7;
+            max-width: 650px;
+            margin: auto auto 60px auto;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--nav-footer-dark);
+            color: #aeacb8;
+            padding: 80px 0 30px 0;
+        }
+        footer h4, footer h5 { color: white; }
+        footer hr { border-color: rgba(255,255,255,0.1); }
+
+        /* INTERFAZ DE ACCESIBILIDAD */
+        .accessibility-btn {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            font-size: 24px;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(107, 78, 255, .35);
+        }
+
+        .accessibility-panel {
+            position: fixed;
+            right: 25px;
+            bottom: 95px;
+            width: 300px;
+            background: var(--bg-light);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 24px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 15px 40px rgba(0,0,0,.15);
+        }
+
+        .accessibility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .accessibility-panel button {
+            background: var(--light-purple);
+            color: var(--primary);
+            font-weight: 600;
+            border: none;
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+        }
+
+        .accessibility-panel button:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .accessibility-panel .btn-reset {
+            grid-column: span 2;
+            background: #ff4e4e;
+            color: white;
+        }
+    </style>
+    <link href="buhowise-fixes.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/BuhoWiselogo.png" alt="BuhoWise Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto text-center align-items-center gap-2 py-3 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="subjects.html">Subjects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="teacherss.html">Teachers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0"><a class="btn btn-nav-account" href="#">Create Account</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="hero-title">Learning <br><span>Without</span> Limits</h1>
+                    <p class="hero-text">
+                        BuhoWise is an accessible learning platform that helps students improve their knowledge through interactive quizzes, engaging lessons, learning challenges, and inclusive technology designed for every learner.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
+                        <button class="btn-main">Start Quiz <i class="bi bi-play-fill ms-1"></i></button>
+                        <a href="subjects.html" class="btn btn-outline-main d-inline-flex align-items-center justify-content-center">Explore Subjects</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="hero-illustration">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-space">
+        <div class="container">
+            <div class="featured-quiz text-center text-md-start">
+                <div class="row align-items-center g-4">
+                    <div class="col-md-8">
+                        <h2>Featured Quiz of the Week!</h2>
+                        <p class="mb-0">Challenge yourself with our most popular educational quiz. Test your knowledge, earn points, and improve your skills in a fun and interactive way.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-light btn-lg">Start Quiz Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-space">
+        <div class="container">
+            <h2 class="section-title">Available Subjects</h2>
+            <p class="section-subtitle">BuhoWise now focuses on Mathematics and Language Arts for third cycle students in El Salvador.</p>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <a class="subject-card text-decoration-none d-block" href="math-grades.html">
+                        <div class="card-icon"><i class="bi bi-calculator"></i></div>
+                        <h4>Mathematics</h4>
+                        <p>Practice units, lesson paths, and problem-solving skills for 7th, 8th, and 9th grade.</p>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a class="subject-card text-decoration-none d-block" href="language-grades.html">
+                        <div class="card-icon"><i class="bi bi-journal-text"></i></div>
+                        <h4>Language Arts</h4>
+                        <p>Strengthen reading, writing, grammar, communication, and text analysis.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-space" style="background: var(--light-purple);">
+        <div class="container">
+            <h2 class="section-title">Identity & Purpose</h2>
+            <p class="section-subtitle">Get to know the core ideals, mission, and basic human values that move the BuhoWise platform forward.</p>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <div class="glow-card">
+                        <div class="card-icon"><i class="bi bi-rocket-takeoff-fill"></i></div>
+                        <h3>Our Mission</h3>
+                        <p class="mb-0">To provide accessible, engaging, and innovative educational experiences that empower students to learn without barriers in El Salvador.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="glow-card">
+                        <div class="card-icon"><i class="bi bi-eye-fill"></i></div>
+                        <h3>Our Vision</h3>
+                        <p class="mb-0">To become a leading educational platform where every single learner can achieve their full potential through active inclusive technology.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center font-weight-bold mb-4 mt-5">Our Core Values</h3>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="step-card text-center">
+                        <div class="card-icon text-center w-100"><i class="bi bi-shield-check"></i></div>
+                        <h4>Accessibility</h4>
+                        <p class="mb-0">Education should be completely available to everyone regardless of any background or physiological abilities.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card text-center">
+                        <div class="card-icon text-center w-100"><i class="bi bi-cpu"></i></div>
+                        <h4>Innovation</h4>
+                        <p class="mb-0">We actively use cutting-edge technology to shape better adaptive, modern learning experiences.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card text-center">
+                        <div class="card-icon text-center w-100"><i class="bi bi-heart-pulse"></i></div>
+                        <h4>Inclusion</h4>
+                        <p class="mb-0">Every unique individual learner deserves equal, respectful, and scalable opportunities to succeed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row g-4 text-center text-md-start mb-5">
+                <div class="col-md-6">
+                    <h4 class="mb-3">BuhoWise</h4>
+                    <p>Making education accessible, engaging, and inclusive for every learner in El Salvador. Learning Without Limits.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none text-white-50">Home</a></li>
+                        <li><a href="subjects.html" class="text-decoration-none text-white-50">Subjects</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-white-50">Accessibility Tools</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50">Contact Us</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center text-white-50 pt-3 mb-0">&copy; 2026 BuhoWise. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <button class="accessibility-btn" onclick="toggleAccessibility()" aria-label="Accessibility Menu">
+        <i class="bi bi-universal-access"></i>
+    </button>
+
+    <div class="accessibility-panel" id="accessibilityPanel">
+        <h5 class="mb-3 text-center"><i class="bi bi-sliders me-2"></i>Accessibility Tools</h5>
+        <div class="accessibility-grid">
+            <button onclick="readPage()"><i class="bi bi-volume-up"></i> Read</button>
+            <button onclick="stopReading()"><i class="bi bi-volume-mute"></i> Stop</button>
+            <button onclick="increaseText()"><i class="bi bi-zoom-in"></i> Text +</button>
+            <button onclick="decreaseText()"><i class="bi bi-zoom-out"></i> Text -</button>
+            <button onclick="toggleDarkMode()"><i class="bi bi-moon"></i> Dark</button>
+            <button onclick="toggleContrast()"><i class="bi bi-circle-half"></i> Contrast</button>
+            <button onclick="toggleDyslexia()"><i class="bi bi-fonts"></i> Dyslexia</button>
+            <button class="btn-reset" onclick="resetAccessibility()"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let fontSize = 100;
+        function toggleAccessibility(){
+            const panel = document.getElementById("accessibilityPanel");
+            panel.style.display = panel.style.display === "block" ? "none" : "block";
+        }
+
+        function readPage(){
+            window.speechSynthesis.cancel();
+            const speech = new SpeechSynthesisUtterance(document.body.innerText);
+            speech.lang = "en-US";
+            window.speechSynthesis.speak(speech);
+        }
+
+        function stopReading(){
+            window.speechSynthesis.cancel();
+        }
+
+        function increaseText(){
+            fontSize += 10;
+            document.body.style.fontSize = fontSize + "%";
+        }
+
+        function decreaseText(){
+            if(fontSize > 70) {
+                fontSize -= 10;
+                document.body.style.fontSize = fontSize + "%";
+            }
+        }
+
+        function toggleDarkMode(){
+            document.body.classList.remove("high-contrast");
+            document.body.classList.toggle("dark-mode");
+        }
+
+        function toggleContrast(){
+            document.body.classList.remove("dark-mode");
+            document.body.classList.toggle("high-contrast");
+        }
+
+        function toggleDyslexia(){
+            document.body.classList.toggle("dyslexia");
+        }
+
+        function resetAccessibility(){
+            document.body.classList.remove("dark-mode", "high-contrast", "dyslexia");
+            fontSize = 100;
+            document.body.style.fontSize = "100%";
+            window.speechSynthesis.cancel();
+        }
+    </script>
+    <script src="buhowise-accessibility.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
