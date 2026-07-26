@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuhoWise - 7th Grade Mathematics Path</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6B4EFF;
+            --primary-dark: #5537e6;
+            --light-purple: #F5F2FF;
+            --dark: #2D2D35;
+            --gray: #6c757d;
+            --bg-light: #fdfdfd;
+            --card-border: #ece8ff;
+            --nav-footer-dark: #1a1824;
+            --success: #24D29B;
+            --warning: #FFB84D;
+            --danger: #FF5E7E;
+            --blue: #00B2FF;
+        }
+        .dark-mode { 
+            --bg-light: #121214; 
+            --dark: #f5f5f7; 
+            --light-purple: #221a44; 
+            --card-border: #322760; 
+            background-color: var(--bg-light) !important; color: var(--dark) !important; 
+        }
+        
+        .high-contrast { --primary: #ffff00; --primary-dark: #ffff00; --bg-light: #000000; --dark: #ffffff; --light-purple: #000000; --card-border: #ffffff; background-color: var(--bg-light) !important; color: var(--dark) !important; }
+        .dyslexia * { font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background-color .3s, color .3s, border-color .3s, box-shadow .3s, transform .3s; }
+        body { background: var(--bg-light); color: var(--dark); overflow-x: hidden; }
+        .navbar { background: var(--nav-footer-dark); box-shadow: 0 4px 20px rgba(0,0,0,.15); padding: 10px 0; }
+        .navbar-brand img { height: 55px; width: auto; border-radius: 8px; background: white; padding: 2px; }
+        .nav-link { font-weight: 600; margin-left: 10px; margin-right: 10px; position: relative; color: rgba(255,255,255,.85) !important; }
+        .nav-link::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 3px; background: var(--primary); border-radius: 10px; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: white !important; }
+        .btn-nav-account { background: var(--primary); color: white !important; font-weight: 700; border: none; padding: 8px 20px; border-radius: 50px; box-shadow: 0 4px 10px rgba(107,78,255,.2); }
+        .btn-nav-account:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .page-hero { padding: 72px 0 36px; background: linear-gradient(180deg, var(--light-purple), var(--bg-light)); }
+        .breadcrumb-link { color: var(--primary); font-weight: 700; text-decoration: none; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--bg-light); color: var(--primary); font-weight: 800; border: 1px solid var(--card-border); box-shadow: 0 8px 20px rgba(107,78,255,.08); }
+        .page-title { font-size: 3rem; font-weight: 850; line-height: 1.08; margin: 18px 0 16px; }
+        .page-title span { color: var(--primary); }
+        .page-subtitle { max-width: 780px; color: var(--dark); opacity: .78; font-size: 1.08rem; line-height: 1.8; }
+        .stats-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 26px; }
+        .stat-box { border: 1px solid var(--card-border); background: var(--bg-light); border-radius: 18px; padding: 16px; }
+        .stat-box strong { display: block; color: var(--primary); font-size: 1.5rem; }
+        .path-section { padding: 42px 0 80px; }
+        .lesson-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+        .unit-band { max-width: 760px; margin: 0 auto 28px; text-align: center; border: 1px solid var(--card-border); background: linear-gradient(135deg, var(--primary), #8B75FF); color: white; border-radius: 22px; padding: 22px; box-shadow: 0 18px 36px rgba(107,78,255,.24); }
+        .unit-band p { margin: 8px auto 0; max-width: 620px; opacity: .9; }
+        .lesson-road { position: relative; max-width: 720px; margin: 0 auto; padding: 24px 0 8px; }
+        .lesson-road::before { content: ''; position: absolute; top: 26px; bottom: 28px; left: 50%; width: 8px; transform: translateX(-50%); background: repeating-linear-gradient(180deg, rgba(107,78,255,.24) 0 24px, rgba(107,78,255,.08) 24px 42px); border-radius: 999px; }
+        .lesson-step { position: relative; min-height: 120px; display: flex; align-items: center; justify-content: center; }
+        .lesson-step:nth-child(odd) { transform: translateX(-84px); }
+        .lesson-step:nth-child(even) { transform: translateX(84px); }
+        .lesson-node { width: 88px; height: 88px; border-radius: 50%; border: 6px solid white; background: var(--primary); color: white; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 2rem; position: relative; box-shadow: 0 14px 28px rgba(107,78,255,.26); }
+        .lesson-node:hover, .lesson-node.active { transform: translateY(-8px) scale(1.05); color: white; box-shadow: 0 22px 42px rgba(107,78,255,.36); }
+        .lesson-node::after { content: attr(data-short); position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: var(--bg-light); color: var(--dark); border: 1px solid var(--card-border); border-radius: 999px; padding: 5px 10px; font-size: .78rem; font-weight: 800; white-space: nowrap; box-shadow: 0 8px 18px rgba(0,0,0,.05); }
+        .lesson-node.practice { background: var(--success); box-shadow: 0 14px 28px rgba(36,210,155,.26); }
+        .lesson-node.story { background: var(--blue); box-shadow: 0 14px 28px rgba(0,178,255,.22); }
+        .lesson-node.review { background: var(--warning); box-shadow: 0 14px 28px rgba(255,184,77,.28); }
+        .lesson-node.challenge { width: 104px; height: 104px; background: var(--danger); font-size: 2.35rem; box-shadow: 0 16px 34px rgba(255,94,126,.3); }
+        .lesson-panel { position: sticky; top: 96px; border: 1px solid var(--card-border); background: var(--bg-light); border-radius: 22px; padding: 24px; box-shadow: 0 16px 36px rgba(0,0,0,.06); }
+        .panel-icon { width: 62px; height: 62px; border-radius: 18px; background: var(--light-purple); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 18px; }
+        .lesson-panel h3 { font-weight: 800; margin-bottom: 10px; }
+        .lesson-panel p { color: var(--dark); opacity: .75; line-height: 1.7; }
+        .panel-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 12px; padding: 12px 16px; border-radius: 999px; text-decoration: none; background: var(--primary); color: white; font-weight: 800; }
+        .panel-link:hover { background: var(--primary-dark); color: white; transform: translateY(-2px); }
+        .unit-preview { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--card-border); }
+        .topic-list { list-style: none; padding: 0; margin: 0; }
+        .topic-list li { display: flex; gap: 10px; padding: 8px 0; color: var(--dark); opacity: .82; }
+        .topic-list i { color: var(--primary); }
+        .next-unit { max-width: 760px; margin: 34px auto 0; border: 2px dashed var(--card-border); background: var(--light-purple); border-radius: 22px; padding: 24px; text-align: center; }
+        footer { background: var(--nav-footer-dark); color: #aeacb8; padding: 60px 0 30px; }
+        footer h4, footer h5 { color: white; }
+        footer hr { border-color: rgba(255,255,255,.1); }
+        .accessibility-btn { position: fixed; right: 25px; bottom: 25px; width: 60px; height: 60px; border: none; border-radius: 50%; background: var(--primary); color: white; font-size: 24px; z-index: 999; box-shadow: 0 10px 30px rgba(107,78,255,.35); }
+        .accessibility-panel { position: fixed; right: 25px; bottom: 95px; width: 300px; background: var(--bg-light); border: 1px solid var(--card-border); padding: 25px; border-radius: 24px; display: none; z-index: 999; box-shadow: 0 15px 40px rgba(0,0,0,.15); }
+        .accessibility-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .accessibility-panel button { background: var(--light-purple); color: var(--primary); font-weight: 600; border: none; padding: 12px; border-radius: 14px; font-size: .9rem; }
+        .accessibility-panel button:hover { background: var(--primary); color: white; }
+        .accessibility-panel .btn-reset { grid-column: span 2; background: #ff4e4e; color: white; }
+        @media (max-width: 991px) { .lesson-layout { grid-template-columns: 1fr; } .lesson-panel { position: static; max-width: 720px; margin: 0 auto; } }
+        @media (max-width: 680px) { .page-title { font-size: 2.25rem; } .stats-strip { grid-template-columns: 1fr; } .lesson-road::before { left: 44px; } .lesson-step, .lesson-step:nth-child(odd), .lesson-step:nth-child(even) { transform: none; justify-content: flex-start; } .lesson-node { width: 82px; height: 82px; font-size: 1.8rem; } .lesson-node.challenge { width: 94px; height: 94px; } .lesson-node::after { left: calc(100% + 14px); top: 50%; transform: translateY(-50%); } }
+    </style>
+    <link href="buhowise-fixes.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="img/BuhoWiselogo.png" alt="BuhoWise Logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto text-center align-items-center gap-2 py-3 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="subjects.html">Subjects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="teacherss.html">Teachers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0"><a class="btn btn-nav-account" href="#">Create Account</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <a class="breadcrumb-link" href="math-seventh-units.html"><i class="bi bi-arrow-left"></i> Back to Units</a>
+                <div class="mt-4">
+                    <span class="hero-badge"><i class="bi bi-calculator"></i> Mathematics - 7th Grade</span>
+                    <h1 class="page-title" id="pageTitle">Learning Path: <span>Unit 1</span></h1>
+                    <p class="page-subtitle" id="pageSubtitle">Move through short lessons for this unit. Each circle represents a different topic and is ready to connect to a real lesson page later.</p>
+                </div>
+                <div class="stats-strip">
+                    <div class="stat-box"><strong id="unitNumberStat">1</strong><span>Active unit</span></div>
+                    <div class="stat-box"><strong>8</strong><span>Base lessons</span></div>
+                    <div class="stat-box"><strong>7th</strong><span>Third cycle</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="path-section">
+            <div class="container">
+                <div class="lesson-layout">
+                    <div>
+                        <div class="unit-band">
+                            <h2 class="mb-1" id="unitTitle">Unit 1: Positive Numbers, Negative Numbers, and Zero</h2>
+                            <p id="unitDescription">Learn to identify, compare, order, and use integers in everyday situations.</p>
+                        </div>
+                        <div class="lesson-road" id="lessonRoad" aria-label="Mathematics lesson path"></div>
+                        <div class="next-unit">
+                            <h3><i class="bi bi-stars text-primary me-2"></i>Keep Building</h3>
+                            <p class="mb-0">Choose another unit from the units page whenever you want to continue the 7th grade math path.</p>
+                        </div>
+                    </div>
+                    <aside class="lesson-panel" aria-live="polite">
+                        <div class="panel-icon"><i id="panelIcon" class="bi bi-123"></i></div>
+                        <h3 id="lessonTitle"></h3>
+                        <p id="lessonDescription"></p>
+                        
+                        <a id="lessonLink" class="panel-link" href="#">Open Lesson <i class="bi bi-arrow-right"></i></a>
+                        
+                        <small id="lessonNote" class="d-block text-muted mt-2">Select a lesson node from the road to view details and jump to the page.</small>
+                        <div class="unit-preview">
+                            <h4 class="mb-3">What This Unit Covers</h4>
+                            <ul class="topic-list" id="topicList"></ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row g-4 text-center text-md-start mb-5">
+                <div class="col-md-6"><h4 class="mb-3">BuhoWise</h4><p>Making education accessible, engaging, and inclusive for every learner in El Salvador. Learning Without Limits.</p></div>
+                <div class="col-md-3"><h5>Quick Links</h5><ul class="list-unstyled"><li><a href="index.html" class="text-decoration-none text-white-50">Home</a></li><li><a href="subjects.html" class="text-decoration-none text-white-50">Subjects</a></li><li><a href="teacherss.html" class="text-decoration-none text-white-50">Teachers</a></li></ul></div>
+                <div class="col-md-3"><h5>Support</h5><ul class="list-unstyled"><li><a href="#" class="text-decoration-none text-white-50">Accessibility Tools</a></li><li><a href="#" class="text-decoration-none text-white-50">Contact Us</a></li><li><a href="#" class="text-decoration-none text-white-50">Privacy Policy</a></li></ul></div>
+            </div>
+            <hr><p class="text-center text-white-50 pt-3 mb-0">&copy; 2026 BuhoWise. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <button class="accessibility-btn" onclick="toggleAccessibility()" aria-label="Accessibility Menu"><i class="bi bi-universal-access"></i></button>
+    <div class="accessibility-panel" id="accessibilityPanel">
+        <h5 class="mb-3 text-center"><i class="bi bi-sliders me-2"></i>Accessibility Tools</h5>
+        <div class="accessibility-grid">
+            <button onclick="readPage()"><i class="bi bi-volume-up"></i> Read</button><button onclick="stopReading()"><i class="bi bi-volume-mute"></i> Stop</button><button onclick="increaseText()"><i class="bi bi-zoom-in"></i> Text +</button><button onclick="decreaseText()"><i class="bi bi-zoom-out"></i> Text -</button><button onclick="toggleDarkMode()"><i class="bi bi-moon"></i> Dark</button><button onclick="toggleContrast()"><i class="bi bi-circle-half"></i> Contrast</button><button onclick="toggleDyslexia()"><i class="bi bi-fonts"></i> Dyslexia</button><button class="btn-reset" onclick="resetAccessibility()"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const unitData = {
+            1: {
+                title: 'Positive Numbers, Negative Numbers, and Zero',
+                description: 'Learn to identify, compare, order, and use integers in everyday situations.',
+                topics: ['Positive numbers', 'Negative numbers', 'Zero as reference', 'Number line'],
+                lessons: ['What integers are', 'Zero as a reference point', 'Location on the number line', 'Comparing integers', 'Ascending and descending order', 'Integers in real situations', 'Unit review', 'Final unit challenge']
+            },
+            2: {
+                title: 'Addition and Subtraction of Positive Numbers, Negative Numbers, and Zero',
+                description: 'Practice adding and subtracting integers with signs, number-line movement, and real-life contexts.',
+                topics: ['Adding integers', 'Subtracting integers', 'Sign rules', 'Real-life problems'],
+                lessons: ['Adding with the same sign', 'Adding with different signs', 'Using zero in sums', 'Subtracting as the opposite', 'Number-line strategies', 'Word problems', 'Unit review', 'Final unit challenge']
+            },
+            3: {
+                title: 'Multiplication and Division of Positive Numbers, Negative Numbers, and Zero',
+                description: 'Understand sign rules for multiplication and division, including what happens when zero is involved.',
+                topics: ['Multiplication rules', 'Division rules', 'Zero cases', 'Practice problems'],
+                lessons: ['Multiplying integers', 'Sign patterns', 'Multiplying by zero', 'Dividing integers', 'Division with zero', 'Mixed operations', 'Unit review', 'Final unit challenge']
+            },
+            4: {
+                title: 'Communication with Symbols',
+                description: 'Use mathematical symbols, expressions, and notation to communicate ideas clearly.',
+                topics: ['Symbols', 'Expressions', 'Notation', 'Mathematical language'],
+                lessons: ['Reading symbols', 'Writing expressions', 'Using variables', 'Translating phrases', 'Evaluating expressions', 'Common notation', 'Unit review', 'Final unit challenge']
+            },
+            5: {
+                title: 'First-Degree Equations',
+                description: 'Solve simple first-degree equations using inverse operations and clear steps.',
+                topics: ['Equations', 'Unknown values', 'Inverse operations', 'Checking answers'],
+                lessons: ['What an equation is', 'Solving one-step equations', 'Solving two-step equations', 'Using inverse operations', 'Equations with integers', 'Checking solutions', 'Unit review', 'Final unit challenge']
+            },
+            6: {
+                title: 'Direct and Inverse Proportionality',
+                description: 'Recognize proportional relationships and use them to solve everyday problems.',
+                topics: ['Ratios', 'Direct proportion', 'Inverse proportion', 'Tables'],
+                lessons: ['Understanding ratios', 'Direct proportionality', 'Inverse proportionality', 'Tables and patterns', 'Finding missing values', 'Real-life applications', 'Unit review', 'Final unit challenge']
+            },
+            7: {
+                title: 'Bar and Pie Graphs',
+                description: 'Read, compare, and create bar graphs and pie charts to communicate information.',
+                topics: ['Bar graphs', 'Pie charts', 'Data reading', 'Data comparison'],
+                lessons: ['Reading bar graphs', 'Creating bar graphs', 'Reading pie charts', 'Parts of a whole', 'Comparing data', 'Choosing the right graph', 'Unit review', 'Final unit challenge']
+            },
+            8: {
+                title: 'Plane Figures and Construction of Geometric Solids',
+                description: 'Study plane figures and connect them with the construction of three-dimensional geometric solids.',
+                topics: ['Plane figures', 'Nets', 'Solids', 'Construction'],
+                lessons: ['Reviewing plane figures', 'Perimeter and area ideas', 'Recognizing solids', 'Using nets', 'Constructing prisms', 'Constructing pyramids', 'Unit review', 'Final unit challenge']
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const selectedUnit = Math.min(Math.max(parseInt(params.get('unit') || '1', 10), 1), 8);
+        const data = unitData[selectedUnit];
+        const nodeStyles = ['', 'story', '', 'practice', '', 'story', 'review', 'challenge'];
+        const nodeIcons = ['bi-123', 'bi-record-circle', 'bi-arrows', 'bi-check2-circle', 'bi-sort-numeric-down', 'bi-lightbulb', 'bi-arrow-repeat', 'bi-trophy-fill'];
+        const nodeShort = ['Start', 'Idea', 'Skill', 'Practice', 'Order', 'Apply', 'Review', 'Challenge'];
+
+        document.getElementById('pageTitle').innerHTML = `Learning Path: <span>Unit ${selectedUnit}</span>`;
+        document.getElementById('pageSubtitle').textContent = `Move through short lessons for Unit ${selectedUnit}: ${data.title}.`;
+        document.getElementById('unitNumberStat').textContent = selectedUnit;
+        document.getElementById('unitTitle').textContent = `Unit ${selectedUnit}: ${data.title}`;
+        document.getElementById('unitDescription').textContent = data.description;
+        document.getElementById('topicList').innerHTML = data.topics.map((topic) => `<li><i class="bi bi-check-circle-fill"></i><span>${topic}</span></li>`).join('');
+
+        const lessonRoad = document.getElementById('lessonRoad');
+        lessonRoad.innerHTML = data.lessons.map((lesson, index) => {
+            const number = index + 1;
+            const style = nodeStyles[index];
+            const icon = nodeIcons[index];
+            const short = nodeShort[index];
+            const description = number === 8 ? `Show what you learned in Unit ${selectedUnit} with short quiz-style exercises.` : `Lesson ${number} for Unit ${selectedUnit}: ${lesson}.`;
+            return `<div class="lesson-step"><a class="lesson-node ${style}" href="#lesson-${number}" data-short="${short}" data-title="${number}. ${lesson}" data-description="${description}" data-url="lessons/math7-u${selectedUnit}-l${number}.html" aria-label="Lesson ${number}: ${lesson}"><i class="bi ${icon}"></i></a></div>`;
+        }).join('');
+
+        const nodes = document.querySelectorAll('.lesson-node');
+        const panelIcon = document.getElementById('panelIcon');
+        const lessonTitle = document.getElementById('lessonTitle');
+        const lessonDescription = document.getElementById('lessonDescription');
+        const lessonLink = document.getElementById('lessonLink');
+
+        // SE CORRIGIÓ ESTA FUNCIÓN PARA HACERLA DINÁMICA
+        function selectNode(node) {
+            nodes.forEach((item) => item.classList.remove('active'));
+            node.classList.add('active');
+            lessonTitle.textContent = node.dataset.title;
+            lessonDescription.textContent = node.dataset.description;
+            
+            // LA SEGUNDA MAGIA AQUÍ: Cambia el enlace href del botón real según el nodo cliqueado
+            lessonLink.href = node.dataset.url; 
+            
+            lessonLink.dataset.url = node.dataset.url;
+            panelIcon.className = node.querySelector('i').className;
+            history.replaceState(null, '', `?unit=${selectedUnit}${node.getAttribute('href')}`);
+        }
+
+        nodes.forEach((node) => node.addEventListener('click', (event) => { event.preventDefault(); selectNode(node); }));
+        selectNode(nodes[0]);
+    </script>
+    <script src="buhowise-accessibility.js"></script>
+</body>
+</html>
