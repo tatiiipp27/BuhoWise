@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuhoWise - Unit 7: Quiz 2 - Themes in Contemporary Poetry</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #6B4EFF;
+      --primary-dark: #5537e6;
+      --light-purple: #F5F2FF;
+      --dark: #2D2D35;
+      --bg-light: #fdfdfd;
+      --card-border: #ece8ff;
+      --nav-footer-dark: #1a1824;
+      --success: #24D29B;
+      --danger: #FF5E7E;
+    }
+    
+    /* Accessibility Classes */
+    .dark-mode {
+      --bg-light: #121214;
+      --dark: #f5f5f7;
+      --light-purple: #221a44;
+      --card-border: #322760;
+      background-color: var(--bg-light) !important;
+      color: var(--dark) !important;
+    }
+    
+    .high-contrast {
+      --primary: #ffff00;
+      --primary-dark: #ffff00;
+      --bg-light: #000;
+      --dark: #fff;
+      --light-purple: #000;
+      --card-border: #fff;
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+    
+    .dyslexia * {
+      font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+    }
+    
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color .25s, color .25s, border-color .25s;
+    }
+    
+    body {
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--dark);
+    }
+    
+    /* Layout Components */
+    .navbar {
+      background: var(--nav-footer-dark);
+      padding: 10px 0;
+    }
+    
+    .navbar-brand img {
+      height: 55px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2px;
+    }
+    
+    .nav-link {
+      font-weight: 700;
+      color: rgba(255, 255, 255, .86) !important;
+    }
+    
+    .btn-nav-account, .main-btn, .next-btn {
+      background: var(--primary);
+      color: white !important;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-nav-account:hover, .main-btn:hover, .next-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .hero {
+      padding: 54px 0 34px;
+      background: linear-gradient(180deg, var(--light-purple), var(--bg-light));
+    }
+    
+    .badge-soft {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900;
+    }
+    
+    .title {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 18px 0;
+    }
+    
+    .title span {
+      color: var(--primary);
+    }
+    
+    .shell {
+      padding: 42px 0 80px;
+    }
+    
+    .cardx {
+      height: 100%;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .05);
+    }
+    
+    .theory {
+      display: flex;
+      gap: 14px;
+      padding: 15px;
+      border-radius: 18px;
+      background: var(--light-purple);
+      margin-bottom: 12px;
+    }
+    
+    .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      font-weight: 900;
+      flex: 0 0 34px;
+    }
+    
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 6px 8px 0 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--light-purple);
+      color: var(--primary);
+      font-weight: 800;
+    }
+    
+    /* Quiz & Scoring */
+    .quiz {
+      display: none;
+    }
+    
+    .top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    
+    .track {
+      flex: 1;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--light-purple);
+      overflow: hidden;
+    }
+    
+    .fill {
+      height: 100%;
+      width: 0;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .answer {
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      background: var(--bg-light);
+      color: var(--dark);
+      padding: 14px;
+      text-align: left;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    
+    .answer:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .correct {
+      border-color: var(--success) !important;
+      background: rgba(36, 210, 155, .14) !important;
+    }
+    
+    .wrong {
+      border-color: var(--danger) !important;
+      background: rgba(255, 94, 126, .12) !important;
+    }
+    
+    .feedback {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--light-purple);
+    }
+    
+    .score {
+      display: none;
+      text-align: center;
+    }
+    
+    .circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 0 auto 16px;
+    }
+
+    /* Accessibility Floating Controls */
+    .accessibility-btn {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 60px;
+      height: 60px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 24px;
+      z-index: 999;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .accessibility-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .accessibility-panel {
+      position: fixed;
+      right: 25px;
+      bottom: 95px;
+      width: 300px;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      padding: 25px;
+      border-radius: 24px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    }
+    
+    .accessibility-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .accessibility-panel button {
+      background: var(--light-purple);
+      color: var(--primary);
+      font-weight: 700;
+      border: 0;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .accessibility-panel button:hover {
+      opacity: 0.85;
+    }
+    
+    .btn-reset {
+      grid-column: span 2;
+      background: #ff4e4e !important;
+      color: white !important;
+    }
+    
+    footer {
+      background: var(--nav-footer-dark);
+      color: #aeacb8;
+      padding: 45px 0 25px;
+    }
+    
+    footer h4, footer h5 {
+      color: white;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    
+    .shake-animation {
+      animation: shake 0.4s ease-in-out;
+    }
+    
+    @media(max-width:768px) {
+      .title {
+        font-size: 2rem;
+      }
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .track {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../img/BuhoWiselogo.png" alt="BuhoWise Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-auto text-center align-items-center gap-2">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="../subjects.html">Subjects</a></li>
+          <li class="nav-item"><a class="nav-link" href="../teacherss.html">Teachers</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+          <li class="nav-item"><a class="btn btn-nav-account" href="#">Create Account</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <a class="text-decoration-none fw-bold text-primary" href="../lenguaje.html?unit=7">
+          <i class="bi bi-arrow-left"></i> Back to Language Arts - Unit 7
+        </a>
+        <div class="mt-4">
+          <span class="badge-soft"><i class="bi bi-book"></i> Language Arts - 9th Grade - Unit 7</span>
+          <h1 class="title">lesson 2: <span>Themes in Contemporary Poetry</span></h1>
+          <p class="lead">An evaluation on existentialism, social protest, wartime devastation, and modern social critiques.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="container">
+        <div class="row g-4">
+          
+          <div class="col-lg-5">
+            <div class="cardx">
+              <h2 class="fw-bold mb-3"><i class="bi bi-book text-primary me-2"></i>Quick Review</h2>
+              <div id="theory"></div>
+              
+              <h3 class="h5 fw-bold mt-4">Key Concepts</h3>
+              <div id="tips"></div>
+              
+              <button class="main-btn mt-4" onclick="startQuiz()">
+                Start Quiz <i class="bi bi-play-fill"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="col-lg-7">
+            
+            <div class="cardx quiz" id="quiz">
+              <div class="top">
+                <strong id="counter"></strong>
+                <div class="track">
+                  <div class="fill" id="fill"></div>
+                </div>
+              </div>
+              <h2 id="qtext" class="fw-bold h4 mb-3"></h2>
+              <div class="answers" id="answers"></div>
+              <div class="feedback" id="feedback"></div>
+              <button class="next-btn mt-3" id="next" onclick="nextQuestion()" style="display:none">
+                Next <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+            
+            <div class="cardx score" id="scoreCard">
+              <div class="circle" id="scoreCircle"></div>
+              <h2 id="scoreTitle"></h2>
+              <p id="scoreMsg"></p>
+              <div class="d-flex justify-content-center gap-2 mt-3">
+                <button class="next-btn" onclick="startQuiz()">Try Again</button>
+                <a class="next-btn" href="../lenguaje.html?unit=7">Back to Module</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <h4>BuhoWise</h4>
+      <p>Accessible education for middle school students in El Salvador.</p>
+      <p class="text-white-50 mb-0">&copy; 2026 BuhoWise. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button class="accessibility-btn" onclick="toggleAccessibility()" aria-label="Accessibility Menu">
+    <i class="bi bi-universal-access"></i>
+  </button>
+  
+  <div class="accessibility-panel" id="accessibilityPanel">
+    <h5 class="mb-3 text-center"><i class="bi bi-sliders me-2"></i>Accessibility Tools</h5>
+    <div class="accessibility-grid">
+      <button onclick="readPage()"><i class="bi bi-volume-up"></i> Read</button>
+      <button onclick="stopReading()"><i class="bi bi-volume-mute"></i> Stop</button>
+      <button onclick="increaseText()"><i class="bi bi-zoom-in"></i> Text +</button>
+      <button onclick="decreaseText()"><i class="bi bi-zoom-out"></i> Text -</button>
+      <button onclick="toggleDarkMode()"><i class="bi bi-moon"></i> Dark</button>
+      <button onclick="toggleContrast()"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button onclick="toggleDyslexia()"><i class="bi bi-fonts"></i> Dyslexia</button>
+      <button class="btn-reset" onclick="resetAccessibility()"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const lesson = {
+      "theory": [
+        "Poetry from this period reflects the anxieties, conflicts, and deep transformations of the modern world.",
+        "Recurring Themes: War and conflict, social inequality, poverty, love, existentialism, and the search for meaning in life.",
+        "Social Protest: Poetry serves as a critical testimony against injustice, violence, and consumerism."
+      ],
+      "tips": [
+        "Existential Reflection",
+        "Social Denunciation",
+        "Anti-War Stance",
+        "Historical Realism"
+      ],
+      "questions": [
+        [
+          "1. Which theme reflects on the purpose of human life and the angst of existence?",
+          "Classical meter.",
+          "Existentialism.",
+          "Bucolism.",
+          "Greek mythology.",
+          1,
+          "Remember: ",
+          "Existentialism focuses on individual freedom, mortality, human angst, and the search for meaning."
+        ],
+        [
+          "2. How does contemporary poetry address war and conflicts?",
+          "By always glorifying battles.",
+          "By denouncing devastation, pain, and human loss.",
+          "By ignoring wartime reality.",
+          "By considering them entertainment games.",
+          1,
+          "Remember: ",
+          "Contemporary poets depict war critically, highlighting its devastating human toll."
+        ],
+        [
+          "3. What is the primary objective of addressing poverty and economic inequality in contemporary poetry?",
+          "To make the realities of vulnerable sectors visible.",
+          "To promote the purchase of luxury goods.",
+          "To entertain with comical stories.",
+          "To justify social injustice.",
+          0,
+          "Remember: ",
+          "Social protest poetry aims to give a voice to marginalized populations and inspire empathy."
+        ],
+        [
+          "4. In contemporary poetry, how is the theme of love usually presented?",
+          "Solely as an unattainable medieval ideal.",
+          "Through romance, passion, disillusionment, or daily commitment.",
+          "Forbidden in all free verse.",
+          "Exclusively as a commercial transaction.",
+          1,
+          "Remember: ",
+          "Modern poetry explores love in all its complexities, from everyday commitment to heartbreak."
+        ],
+        [
+          "5. Which feeling is closely linked to poetic existentialism?",
+          "Mathematical indifference.",
+          "Disillusionment, solitude, and the search for meaning.",
+          "Permanent, overflowing joy.",
+          "Enthusiasm for war.",
+          1,
+          "Remember: ",
+          "Existential themes frequently deal with feelings of isolation, uncertainty, and the quest for purpose."
+        ],
+        [
+          "6. Critique of consumer society and the modern economy is:",
+          "A recurring theme in contemporary poetry.",
+          "A theme exclusive to 16th-century literature.",
+          "Something forbidden by poets.",
+          "A topic addressed only by geometry.",
+          0,
+          "Remember: ",
+          "Contemporary poets frequently question consumerism, industrialization, and modern materialism."
+        ],
+        [
+          "7. A poem describing ruined cities and a grieving populace mainly addresses:",
+          "Idyllic love.",
+          "War and its consequences.",
+          "Unspoiled nature.",
+          "Roman mythology.",
+          1,
+          "Remember: ",
+          "Images of destroyed urban landscapes and public mourning directly represent the tragic consequences of war."
+        ],
+        [
+          "8. What relationship exists between contemporary poetry and the author's historical context?",
+          "None, the poet lives in total isolation.",
+          "Direct; poetry reflects the social and political concerns of the time.",
+          "The poet only speaks of events from a thousand years ago.",
+          "Contemporary poetry only speaks of the distant future.",
+          1,
+          "Remember: ",
+          "Contemporary literature mirrors real-world historical developments and social struggles."
+        ],
+        [
+          "9. Disagreement with traditional social conventions is expressed as:",
+          "Disillusionment with reality.",
+          "Blind acceptance.",
+          "Total conformity.",
+          "Medieval mysticism.",
+          0,
+          "Remember: ",
+          "Questioning rigid traditional norms often manifests as disillusionment or critical rebellion."
+        ],
+        [
+          "10. In social protest poetry, with whom does the 'lyric I' usually identify?",
+          "The oppressors.",
+          "The dispossessed and marginalized.",
+          "Mythological beings.",
+          "Ancient royalty.",
+          1,
+          "Remember: ",
+          "The speaker in social poetry aligns with victims of oppression, poverty, or societal injustice."
+        ]
+      ]
+    };
+
+    let i = 0, score = 0, answered = false;
+
+    // --- Sound FX Generator ---
+    function playSound(type) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const gain = audioCtx.createGain();
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+
+        osc1.type = 'square';
+        osc2.type = 'sine';
+        osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime);
+        osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.15);
+        osc2.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.15);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+        osc1.start(audioCtx.currentTime);
+        osc2.start(audioCtx.currentTime);
+        osc1.stop(audioCtx.currentTime + 0.4);
+        osc2.stop(audioCtx.currentTime + 0.4);
+      } else if (type === 'wrong') {
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.3);
+
+        osc.connect(gain);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.35);
+      }
+    }
+
+    // Populate Theory
+    document.getElementById('theory').innerHTML = lesson.theory.map((t, n) => `
+      <div class="theory">
+        <span class="num">${n + 1}</span>
+        <p class="mb-0">${t}</p>
+      </div>
+    `).join('');
+
+    // Populate Tips
+    document.getElementById('tips').innerHTML = lesson.tips.map(t => `
+      <span class="pill"><i class="bi bi-stars"></i> ${t}</span>
+    `).join('');
+
+    // Quiz Lifecycle
+    function startQuiz() {
+      document.getElementById('quiz').style.display = 'block';
+      document.getElementById('scoreCard').style.display = 'none';
+      i = 0;
+      score = 0;
+      showQuestion();
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showQuestion() {
+      answered = false;
+      let q = lesson.questions[i];
+      document.getElementById('counter').textContent = `Question ${i + 1} of ${lesson.questions.length}`;
+      document.getElementById('fill').style.width = `${(i / lesson.questions.length) * 100}%`;
+      document.getElementById('qtext').textContent = q[0];
+      document.getElementById('feedback').style.display = 'none';
+      document.getElementById('next').style.display = 'none';
+      document.getElementById('answers').innerHTML = q.slice(1, 5).map((a, n) => `
+        <button class="answer" onclick="choose(${n})">${a}</button>
+      `).join('');
+    }
+
+    function choose(n) {
+      if (answered) return;
+      answered = true;
+      let q = lesson.questions[i], c = +q[5];
+      
+      document.querySelectorAll('.answer').forEach((b, k) => {
+        b.disabled = true;
+        if (k === c) b.classList.add('correct');
+        if (k === n && n !== c) b.classList.add('wrong');
+      });
+
+      if (n === c) {
+        score++;
+        playSound('correct');
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.6 }
+        });
+      } else {
+        playSound('wrong');
+        const quizCard = document.getElementById('quiz');
+        quizCard.classList.add('shake-animation');
+        setTimeout(() => {
+          quizCard.classList.remove('shake-animation');
+        }, 400);
+      }
+
+      const feedback = document.getElementById('feedback');
+      feedback.style.display = 'block';
+      feedback.innerHTML = (n === c ? '<strong>Correct!</strong> ' : '<strong>Almost...</strong> ') + q[6] + q[7];
+      document.getElementById('next').style.display = 'inline-flex';
+    }
+
+    function nextQuestion() {
+      i++;
+      if (i >= lesson.questions.length) finish();
+      else showQuestion();
+    }
+
+    function finish() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('scoreCard').style.display = 'block';
+      document.getElementById('scoreCircle').textContent = `${score}/${lesson.questions.length}`;
+      
+      const scoreTitle = document.getElementById('scoreTitle');
+      const scoreMsg = document.getElementById('scoreMsg');
+
+      if (score >= Math.ceil(lesson.questions.length * 0.8)) {
+        scoreTitle.textContent = 'Great job!';
+        scoreMsg.textContent = 'You have mastered the thematic perspectives of contemporary poetry.';
+        
+        let end = Date.now() + 2000;
+        (function frame() {
+          confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
+          confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+      } else {
+        scoreTitle.textContent = 'Good effort!';
+        scoreMsg.textContent = 'Review the core themes and try again to improve your score.';
+      }
+      
+      document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* Accessibility Menu Engine Functions */
+    function toggleAccessibility() {
+      const panel = document.getElementById('accessibilityPanel');
+      if (panel) {
+        panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+      }
+    }
+
+    function readPage() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const mainContent = document.querySelector('main');
+        if (!mainContent) return;
+
+        const utterance = new SpeechSynthesisUtterance(mainContent.innerText);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech is not supported in your browser.');
+      }
+    }
+
+    function stopReading() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    let currentFontSizeMultiplier = 1;
+
+    function increaseText() {
+      if (currentFontSizeMultiplier < 1.4) {
+        currentFontSizeMultiplier += 0.1;
+        document.body.style.fontSize = `${currentFontSizeMultiplier * 100}%`;
+      }
+    }
+
+    function decreaseText() {
+      if (currentFontSizeMultiplier > 0.8) {
+        currentFontSizeMultiplier -= 0.1;
+        document.body.style.fontSize = `${currentFontSizeMultiplier * 100}%`;
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.remove('high-contrast');
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleContrast() {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.toggle('high-contrast');
+    }
+
+    function toggleDyslexia() {
+      document.body.classList.toggle('dyslexia');
+    }
+
+    function resetAccessibility() {
+      stopReading();
+      currentFontSizeMultiplier = 1;
+      document.body.style.fontSize = '100%';
+      document.body.classList.remove('dark-mode', 'high-contrast', 'dyslexia');
+    }
+
+    // Dismiss accessibility panel when clicking outside
+    document.addEventListener('click', function (event) {
+      const panel = document.getElementById('accessibilityPanel');
+      const btn = document.querySelector('.accessibility-btn');
+      if (panel && btn && !panel.contains(event.target) && !btn.contains(event.target)) {
+        panel.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
