@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuhoWise Lesson - Geometric Proofs with Angles and Parallel Lines</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #6B4EFF;
+      --primary-dark: #5537e6;
+      --light-purple: #F5F2FF;
+      --dark: #2D2D35;
+      --bg-light: #fdfdfd;
+      --card-border: #ece8ff;
+      --nav-footer-dark: #1a1824;
+      --success: #24D29B;
+      --danger: #FF5E7E;
+      --base-font-size: 16px;
+    }
+    
+    html {
+      font-size: var(--base-font-size);
+    }
+    
+    body.dark-mode {
+      --bg-light: #121214;
+      --dark: #f5f5f7;
+      --light-purple: #221a44;
+      --card-border: #322760;
+      background-color: var(--bg-light) !important;
+      color: var(--dark) !important;
+    }
+    
+    body.high-contrast {
+      --primary: #ffff00;
+      --primary-dark: #ffff00;
+      --bg-light: #000;
+      --dark: #fff;
+      --light-purple: #000;
+      --card-border: #fff;
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+    
+    body.dyslexia * {
+      font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+    }
+    
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: .25s;
+    }
+    
+    body {
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--dark);
+    }
+    
+    .navbar {
+      background: var(--nav-footer-dark);
+      padding: 10px 0;
+    }
+    
+    .navbar-brand img {
+      height: 55px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2px;
+    }
+    
+    .nav-link {
+      font-weight: 700;
+      color: rgba(255, 255, 255, .86) !important;
+    }
+    
+    .btn-nav-account, .main-btn, .next-btn {
+      background: var(--primary);
+      color: white !important;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    
+    .hero {
+      padding: 54px 0 34px;
+      background: linear-gradient(180deg, var(--light-purple), var(--bg-light));
+    }
+    
+    .badge-soft {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900;
+    }
+    
+    .title {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 18px 0;
+    }
+    
+    .title span {
+      color: var(--primary);
+    }
+    
+    .shell {
+      padding: 42px 0 80px;
+    }
+    
+    .cardx {
+      height: 100%;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .05);
+    }
+    
+    .theory {
+      display: flex;
+      gap: 14px;
+      padding: 15px;
+      border-radius: 18px;
+      background: var(--light-purple);
+      margin-bottom: 12px;
+    }
+    
+    .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      font-weight: 900;
+      flex: 0 0 34px;
+    }
+    
+    .pill {
+      display: inline-flex;
+      margin: 6px 8px 0 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--light-purple);
+      color: var(--primary);
+      font-weight: 800;
+    }
+    
+    .quiz {
+      display: none;
+    }
+    
+    .top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    
+    .track {
+      flex: 1;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--light-purple);
+      overflow: hidden;
+    }
+    
+    .fill {
+      height: 100%;
+      width: 0;
+      background: var(--primary);
+    }
+    
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .answer {
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      background: var(--bg-light);
+      color: var(--dark);
+      padding: 14px;
+      text-align: left;
+      font-weight: 800;
+    }
+    
+    .answer:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .correct {
+      border-color: var(--success);
+      background: rgba(36, 210, 155, .14);
+    }
+    
+    .wrong {
+      border-color: var(--danger);
+      background: rgba(255, 94, 126, .12);
+    }
+    
+    .feedback {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--light-purple);
+    }
+    
+    .score {
+      display: none;
+      text-align: center;
+    }
+    
+    .circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    
+    .accessibility-btn {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 60px;
+      height: 60px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 24px;
+      z-index: 999;
+      cursor: pointer;
+    }
+    
+    .accessibility-panel {
+      position: fixed;
+      right: 25px;
+      bottom: 95px;
+      width: 300px;
+      background: var(--bg-light);
+      border: 1px solid var(--card-border);
+      padding: 25px;
+      border-radius: 24px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .accessibility-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .accessibility-panel button {
+      background: var(--light-purple);
+      color: var(--primary);
+      font-weight: 700;
+      border: 0;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    
+    .btn-reset {
+      grid-column: span 2;
+      background: #ff4e4e !important;
+      color: white !important;
+    }
+    
+    footer {
+      background: var(--nav-footer-dark);
+      color: #aeacb8;
+      padding: 45px 0 25px;
+    }
+    
+    footer h4, footer h5 {
+      color: white;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake-animation {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @media(max-width:768px) {
+      .title {
+        font-size: 2rem;
+      }
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .track {
+        width: 100%;
+      }
+    }
+  </style>
+  <link href="../buhowise-fixes.css" rel="stylesheet">
+  <link href="../buhowise-avatar.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../img/BuhoWiselogo.png" alt="BuhoWise Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-auto text-center align-items-center gap-2">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="../subjects.html">Subjects</a></li>
+          <li class="nav-item"><a class="nav-link" href="../teacherss.html">Teachers</a></li>
+          <li class="nav-item"><a class="nav-link" href="../index.html#about">About Us</a></li>
+          <li class="nav-item"><a class="btn btn-nav-account" href="#" onclick="alert('Account creation is coming soon. You can explore every lesson without an account.'); return false;">Create Account</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <a class="text-decoration-none fw-bold text-primary" href="../learning-path.html?subject=math&grade=8&unit=4">
+          <i class="bi bi-arrow-left"></i> Back to Unit 4 Path
+        </a>
+        <div class="mt-4">
+          <span class="badge-soft"><i class="bi bi-bounding-box-circles"></i> Mathematics - 8th Grade - Unit 4</span>
+          <h1 class="title">Lesson 4: <span>Geometric Proofs with Angles and Parallel Lines</span></h1>
+          <p class="lead">Learn step-by-step deductive reasoning to prove angle properties and parallel line theorems using logical statements and justifications.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="container">
+        <div class="row g-4">
+          
+          <div class="col-lg-5">
+            <div class="cardx">
+              <h2 class="fw-bold mb-3"><i class="bi bi-book text-primary me-2"></i>Quick Theory</h2>
+              <div id="theory"></div>
+              
+              <h3 class="h5 fw-bold mt-4">Remember</h3>
+              <div id="tips"></div>
+              
+              <button class="main-btn mt-4" onclick="startQuiz()">
+                Start My Lesson <i class="bi bi-play-fill"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="col-lg-7">
+            <div class="cardx quiz" id="quiz">
+              <div class="top">
+                <strong id="counter"></strong>
+                <div class="track">
+                  <div class="fill" id="fill"></div>
+                </div>
+              </div>
+              <h2 id="qtext" class="fw-bold h4 mb-3"></h2>
+              <div class="answers" id="answers"></div>
+              <div class="feedback" id="feedback"></div>
+              <button class="next-btn mt-3" id="next" onclick="nextQuestion()" style="display:none">
+                Next <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+            
+            <div class="cardx score" id="scoreCard">
+              <div class="circle" id="scoreCircle"></div>
+              <h2 id="scoreTitle"></h2>
+              <p id="scoreMsg"></p>
+              <button class="next-btn" onclick="startQuiz()">Try Again</button>
+              <a class="next-btn ms-2 mt-2" href="../learning-path.html?subject=math&grade=8&unit=4">Back to Path</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <h4>BuhoWise</h4>
+      <p>Accessible Mathematics and Language Arts for third cycle students in El Salvador.</p>
+      <p class="text-white-50 mb-0">&copy; 2026 BuhoWise. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button class="accessibility-btn" onclick="toggleAccessibility()" aria-label="Accessibility Menu">
+    <i class="bi bi-universal-access"></i>
+  </button>
+  
+  <div class="accessibility-panel" id="accessibilityPanel">
+    <h5 class="mb-3 text-center"><i class="bi bi-sliders me-2"></i>Accessibility Tools</h5>
+    <div class="accessibility-grid">
+      <button onclick="readPage()"><i class="bi bi-volume-up"></i> Read</button>
+      <button onclick="stopReading()"><i class="bi bi-volume-mute"></i> Stop</button>
+      <button onclick="increaseText()"><i class="bi bi-zoom-in"></i> Text +</button>
+      <button onclick="decreaseText()"><i class="bi bi-zoom-out"></i> Text -</button>
+      <button onclick="toggleDarkMode()"><i class="bi bi-moon"></i> Dark</button>
+      <button onclick="toggleContrast()"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button onclick="toggleDyslexia()"><i class="bi bi-fonts"></i> Dyslexia</button>
+      <button class="btn-reset" onclick="resetAccessibility()"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    /* -------------------------------------------------------------
+       1. LESSON AND QUIZ - UNIT 4 LESSON 4 (8TH GRADE)
+    ------------------------------------------------------------- */
+    const lesson = {
+      "theory": [
+        "A geometric proof uses a sequence of logical statements supported by definitions, postulates, or previously proven theorems.",
+        "An auxiliary line (an extra line drawn in a figure) is often used to connect parallel line theorems to solve complex angle problems.",
+        "To prove that the sum of interior angles in any triangle is 180°, we draw a line parallel to one side through the opposite vertex and use alternate interior angles."
+      ],
+      "tips": [
+        "Statement + Reason",
+        "Use Auxiliary Lines",
+        "Triangle Sum = 180°",
+        "Transitive Property: A=B, B=C ⇒ A=C"
+      ],
+      "questions": [
+        ["In a formal geometric proof, what must accompany every statement?", "A valid reason (definition, postulate, or theorem)", "An algebraic equation", "A drawing", "A numerical measurement", 0, "Remember: ", "Every step in a proof requires a logical justification or reason."],
+        ["What is an extra line drawn in a geometric diagram to help complete a proof called?", "An auxiliary line", "A transversal line", "A bisector", "A perpendicular line", 0, "Remember: ", "An auxiliary line is added to help establish geometric relationships."],
+        ["When proving that the sum of interior angles of a triangle is 180°, which property is primarily used with an auxiliary parallel line?", "Alternate interior angles are equal", "Vertical angles are supplementary", "Corresponding angles add to 90°", "Exterior angles are equal", 0, "Remember: ", "Drawing a line parallel to the base creates alternate interior angles equal to the base angles."],
+        ["If angle A = angle B and angle B = angle C, then angle A = angle C. Which property is this?", "Transitive Property of Equality", "Symmetric Property", "Reflexive Property", "Substitution Property", 0, "Remember: ", "The Transitive Property links two quantities through a common third quantity."],
+        ["If line L1 is parallel to L2, and L2 is parallel to L3, what is the relation between L1 and L3?", "L1 is parallel to L3", "L1 is perpendicular to L3", "L1 intersects L3", "No relationship exists", 0, "Remember: ", "Two lines parallel to the same line are parallel to each other."],
+        ["To prove that alternate exterior angles are equal, which two angle relationships can be combined?", "Corresponding angles and vertically opposite angles", "Supplementary angles and linear pairs", "Consecutive interior angles and right angles", "Adjacent angles and perpendiculars", 0, "Remember: ", "Since corresponding angles are equal and vertical angles are equal, their combination proves alternate exterior angles are equal."],
+        ["If angle 1 + angle 2 = 180° and angle 2 + angle 3 = 180°, what can we prove about angle 1 and angle 3?", "Angle 1 = Angle 3", "Angle 1 + Angle 3 = 180°", "Angle 1 = 90°", "Angle 3 = 90°", 0, "Remember: ", "Angles supplementary to the same angle are congruent (equal)."],
+        ["What is the main purpose of drawing a parallel auxiliary line through an interior vertex of an M-shaped angle structure?", "To divide the angle into two manageable alternate interior angles", "To create a right angle", "To make the lines perpendicular", "To calculate the area", 0, "Remember: ", "Auxiliary parallel lines split complex angles into pairs of alternate interior angles."],
+        ["Which statement best describes deductive reasoning in geometry?", "Reaching a logical conclusion based on established facts and rules", "Making a guess based on visual measurement", "Assuming something is true because it looks right", "Using a protractor to verify angles", 0, "Remember: ", "Deductive reasoning relies on logical steps based on rules and definitions rather than measurements."],
+        ["If two lines are cut by a transversal and consecutive interior angles sum to 180°, what theorem applies?", "Converse of Consecutive Interior Angles Theorem", "Alternate Interior Angles Theorem", "Vertical Angles Theorem", "Triangle Angle Sum Theorem", 0, "Remember: ", "If consecutive interior angles are supplementary, the lines are parallel by the Converse theorem."]
+      ]
+    };
+
+    let i = 0, score = 0, answered = false;
+    let correctIndexInShuffled = -1;
+    const CORRECT_VOLUME = 0.25;
+    const WRONG_VOLUME = 0.25;
+
+    function playSound(type) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const gain = audioCtx.createGain();
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+
+        osc1.type = 'square';
+        osc2.type = 'sine';
+        osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime);
+        osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.25);
+        osc2.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.25);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.gain.setValueAtTime(CORRECT_VOLUME, audioCtx.currentTime);
+        gain.gain.setValueAtTime(CORRECT_VOLUME, audioCtx.currentTime + 0.35);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.60);
+
+        osc1.start(audioCtx.currentTime);
+        osc2.start(audioCtx.currentTime);
+        osc1.stop(audioCtx.currentTime + 0.60);
+        osc2.stop(audioCtx.currentTime + 0.60);
+      } else if (type === 'wrong') {
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+
+        osc1.type = 'square';
+        osc2.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(240, audioCtx.currentTime);
+        osc2.frequency.setValueAtTime(180, audioCtx.currentTime);
+        osc1.frequency.linearRampToValueAtTime(140, audioCtx.currentTime + 0.55);
+        osc2.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.55);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.gain.setValueAtTime(WRONG_VOLUME, audioCtx.currentTime);
+        gain.gain.setValueAtTime(WRONG_VOLUME, audioCtx.currentTime + 0.35);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.60);
+
+        osc1.start(audioCtx.currentTime);
+        osc2.start(audioCtx.currentTime);
+        osc1.stop(audioCtx.currentTime + 0.60);
+        osc2.stop(audioCtx.currentTime + 0.60);
+      }
+    }
+
+    document.getElementById('theory').innerHTML = lesson.theory.map((t, n) => `
+      <div class="theory">
+        <span class="num">${n + 1}</span>
+        <p class="mb-0">${t}</p>
+      </div>
+    `).join('');
+
+    document.getElementById('tips').innerHTML = lesson.tips.map(t => `
+      <span class="pill"><i class="bi bi-stars"></i>${t}</span>
+    `).join('');
+
+    function startQuiz() {
+      document.getElementById('quiz').style.display = 'block';
+      document.getElementById('scoreCard').style.display = 'none';
+      i = 0;
+      score = 0;
+      showQuestion();
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showQuestion() {
+      answered = false;
+      let q = lesson.questions[i];
+      
+      document.getElementById('counter').textContent = `Question ${i + 1} of ${lesson.questions.length}`;
+      document.getElementById('fill').style.width = `${(i / lesson.questions.length) * 100}%`;
+      document.getElementById('qtext').textContent = q[0];
+      document.getElementById('feedback').style.display = 'none';
+      document.getElementById('next').style.display = 'none';
+
+      let originalOptions = q.slice(1, 5);
+      let originalCorrectIndex = +q[5];
+
+      let indexedOptions = originalOptions.map((text, idx) => ({
+        text: text,
+        isCorrect: idx === originalCorrectIndex
+      }));
+
+      // Aleatorizar las opciones
+      for (let k = indexedOptions.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [indexedOptions[k], indexedOptions[j]] = [indexedOptions[j], indexedOptions[k]];
+      }
+
+      correctIndexInShuffled = indexedOptions.findIndex(opt => opt.isCorrect);
+
+      document.getElementById('answers').innerHTML = indexedOptions.map((opt, n) => `
+        <button class="answer" onclick="choose(${n})">${opt.text}</button>
+      `).join('');
+    }
+
+    function choose(n) {
+      if (answered) return;
+      answered = true;
+      let q = lesson.questions[i];
+      let c = correctIndexInShuffled;
+
+      document.querySelectorAll('.answer').forEach((b, k) => {
+        b.disabled = true;
+        if (k === c) b.classList.add('correct');
+        if (k === n && n !== c) b.classList.add('wrong');
+      });
+
+      if (n === c) {
+        score++;
+        playSound('correct');
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } else {
+        playSound('wrong');
+        const quizCard = document.getElementById('quiz');
+        quizCard.classList.add('shake-animation');
+        setTimeout(() => {
+          quizCard.classList.remove('shake-animation');
+        }, 400);
+      }
+
+      const feedbackEl = document.getElementById('feedback');
+      feedbackEl.style.display = 'block';
+      feedbackEl.innerHTML = (n === c ? '<strong>Correct.</strong> ' : '<strong>Almost.</strong> ') + q[6] + q[7];
+      document.getElementById('next').style.display = 'inline-flex';
+    }
+
+    function nextQuestion() {
+      i++;
+      if (i >= lesson.questions.length) finish();
+      else showQuestion();
+    }
+
+    function finish() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('scoreCard').style.display = 'block';
+      document.getElementById('scoreCircle').textContent = `${score}/${lesson.questions.length}`;
+      document.getElementById('scoreTitle').textContent = score >= 8 ? 'Great work!' : 'Good start!';
+      if (score >= 8) {
+        document.getElementById('scoreMsg').textContent = 'You understood the topic well. Keep moving through the path.';
+        const duration = 2 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+          confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
+          confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+      } else {
+        document.getElementById('scoreMsg').textContent = 'Review the theory and try again. Learning gets stronger with practice.';
+      }
+      document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* -------------------------------------------------------------
+       2. ACCESSIBILITY PANEL FUNCTIONS
+    ------------------------------------------------------------- */
+    let currentFontSize = 16;
+    let synth = window.speechSynthesis;
+
+    function toggleAccessibility() {
+      const panel = document.getElementById('accessibilityPanel');
+      panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function readPage() {
+      stopReading();
+      const textToRead = document.querySelector('main').innerText;
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'en-US';
+      synth.speak(utterance);
+    }
+
+    function stopReading() {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+    }
+
+    function increaseText() {
+      if (currentFontSize < 24) {
+        currentFontSize += 2;
+        document.documentElement.style.setProperty('--base-font-size', currentFontSize + 'px');
+      }
+    }
+
+    function decreaseText() {
+      if (currentFontSize > 12) {
+        currentFontSize -= 2;
+        document.documentElement.style.setProperty('--base-font-size', currentFontSize + 'px');
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.remove('high-contrast');
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleContrast() {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.toggle('high-contrast');
+    }
+
+    function toggleDyslexia() {
+      document.body.classList.toggle('dyslexia');
+    }
+
+    function resetAccessibility() {
+      stopReading();
+      currentFontSize = 16;
+      document.documentElement.style.setProperty('--base-font-size', '16px');
+      document.body.classList.remove('dark-mode', 'high-contrast', 'dyslexia');
+    }
+  </script>
+  <script src="../buhowise-quiz-effects.js"></script>
+  <script src="../buhowise-progress.js"></script>
+  <script src="../buhowise-accessibility.js"></script>
+  <script src="../buhowise-shell.js"></script>
+  <script src="../buhowise-avatar.js"></script>
+</body>
+</html>
