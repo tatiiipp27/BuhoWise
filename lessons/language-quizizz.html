@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <style id="bw-first-paint">
+        html { background: #171324; }
+        html:not(.bw-page-ready) body { visibility: hidden !important; }
+    </style>
+    <noscript>
+        <style>body { visibility: visible !important; }</style>
+    </noscript>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BuhoWise - Grade 7 Language Arts Quiz</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../buhowise-fixes.css" rel="stylesheet">
+    <link href="../buhowise-avatar.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6b4eff;
+            --primary-soft: #f5f2ff;
+            --ink: #2d2d35;
+            --line: #ece8ff;
+            --correct: #168b68;
+            --wrong: #c92f52;
+        }
+
+        body {
+            background: #fdfdfd;
+            color: var(--ink);
+        }
+
+        .hero {
+            padding: 50px 0 30px;
+            background: linear-gradient(180deg, var(--primary-soft), #fff);
+        }
+
+        h1 {
+            font-weight: 900;
+        }
+
+        .content {
+            padding: 35px 0 70px;
+        }
+
+        .cardx {
+            padding: 28px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 14px 34px #0000000d;
+        }
+
+        .theory {
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 14px;
+            background: var(--primary-soft);
+        }
+
+        .quiz,
+        .score {
+            display: none;
+        }
+
+        .track {
+            height: 12px;
+            border-radius: 99px;
+            background: var(--primary-soft);
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.25s ease;
+        }
+
+        .answers {
+            display: grid;
+            gap: 12px;
+        }
+
+        .answer {
+            padding: 14px;
+            border: 2px solid var(--line);
+            border-radius: 15px;
+            background: #fff;
+            text-align: left;
+            font-weight: 800;
+        }
+
+        .answer.correct {
+            border-color: var(--correct);
+            background: #dff9ef;
+            color: #0c5e46;
+        }
+
+        .answer.wrong {
+            border-color: var(--wrong);
+            background: #ffe3ea;
+            color: #8f1d3a;
+        }
+
+        .feedback {
+            display: none;
+            padding: 14px;
+            margin-top: 14px;
+            border-radius: 14px;
+            background: var(--primary-soft);
+        }
+
+        .btnx {
+            display: inline-flex;
+            margin-top: 16px;
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 99px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .score {
+            text-align: center;
+        }
+
+        .circle {
+            display: grid;
+            place-items: center;
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 900;
+            box-shadow: 0 12px 30px rgba(107, 78, 255, 0.28);
+        }
+
+        body.dark-mode,
+        .dark-mode .content {
+            background: #121014 !important;
+            color: #f7f5ff !important;
+        }
+
+        .dark-mode .hero {
+            background: linear-gradient(180deg, #231d33, #121014) !important;
+        }
+
+        .dark-mode .cardx,
+        .dark-mode .answer {
+            border-color: #443a50 !important;
+            background: #211d29 !important;
+            color: #f7f5ff !important;
+        }
+
+        .dark-mode .theory,
+        .dark-mode .feedback,
+        .dark-mode .track {
+            background: #302943 !important;
+            color: #f7f5ff !important;
+        }
+
+        .dark-mode .answer.correct {
+            border-color: #38d5a7 !important;
+            background: #153f34 !important;
+            color: #dbfff4 !important;
+        }
+
+        .dark-mode .answer.wrong {
+            border-color: #ff7192 !important;
+            background: #4a1f2b !important;
+            color: #ffe6ec !important;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="../img/BuhoWise-favicon.png">
+    <link rel="apple-touch-icon" href="../img/BuhoWise-favicon.png">
+</head>
+
+<body>
+    <main id="main-content">
+        <section class="hero">
+            <div class="container">
+                <a id="back" href="../language-septimo.html" class="fw-bold text-decoration-none">
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    Back to Path
+                </a>
+                <h1 class="mt-4">
+                    Lesson <span id="lessonNo"></span>:
+                    <span id="lessonName" class="text-primary"></span>
+                </h1>
+                <p id="intro" class="lead"></p>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="cardx">
+                            <h2>Quick Theory</h2>
+                            <div id="theory"></div>
+                            <button class="btnx" id="start" type="button">Start My Lesson</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="cardx quiz" id="quiz">
+                            <strong id="counter"></strong>
+                            <div
+                                class="track mt-2 mb-4"
+                                id="progressTrack"
+                                role="progressbar"
+                                aria-label="Quiz progress"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                aria-valuenow="0"
+                            >
+                                <div class="fill" id="fill"></div>
+                            </div>
+                            <h2 id="question" class="h4"></h2>
+                            <div class="answers" id="answers" role="group" aria-labelledby="question"></div>
+                            <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+                            <button class="btnx" id="next" type="button" hidden>Next</button>
+                        </div>
+
+                        <div class="cardx score" id="scoreCard" role="status" aria-live="polite">
+                            <div class="circle" id="scoreCircle" aria-label="Final score"></div>
+                            <h2 id="scoreTitle"></h2>
+                            <p id="scoreText"></p>
+                            <button class="btnx" id="retry" type="button">Try Again</button>
+                            <a class="btnx ms-2" id="backBottom" href="../language-septimo.html">Back to Path</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(location.search);
+        const unit = Math.min(Math.max(Number(params.get("unit")) || 1, 1), 4);
+        const lesson = Math.min(Math.max(Number(params.get("lesson")) || 1, 1), 8);
+
+        const lessonNames = [
+            "Core Concept",
+            "Guided Practice",
+            "Reading Activity",
+            "Check Your Thinking",
+            "Vocabulary Practice",
+            "Apply the Skill",
+            "Review Lesson",
+            "Quiz Challenge"
+        ];
+
+        const quizSets = {
+            1: {
+                topic: "Reading Strategies and Main Ideas",
+                theory: [
+                    "A main idea is the central point.",
+                    "Details support the main idea.",
+                    "Inferences use clues and prior knowledge."
+                ],
+                questions: [
+                    ["What is the main idea?", "The central point", "A minor detail", "Only the title", "A random fact", 0],
+                    ["What supports an answer?", "Text evidence", "A guess", "A new topic", "Nothing", 0],
+                    ["What is an inference?", "A conclusion from clues", "A heading", "A copied title", "A name", 0],
+                    ["Where is a main idea often stated?", "Topic sentence", "Footnote only", "Page number", "Cover", 0],
+                    ["A useful strategy is...", "Ask questions", "Skip headings", "Ignore words", "Read one line", 0],
+                    ["Relevant details...", "Support the main idea", "Change the topic", "Add confusion", "Replace evidence", 0],
+                    ["Why reread?", "Improve understanding", "Change the author", "Delete details", "Avoid thinking", 0],
+                    ["Author purpose means...", "Reason for writing", "Number of pages", "Font choice", "Reader age", 0],
+                    ["A strong inference uses...", "Specific clues", "No evidence", "A different text", "Only opinion", 0],
+                    ["An implied idea is found by...", "Combining key details", "Choosing the longest word", "Ignoring evidence", "Reading the title only", 0]
+                ]
+            },
+            2: {
+                topic: "Narrative Texts and Story Elements",
+                theory: [
+                    "Setting is time and place.",
+                    "Plot orders story events.",
+                    "Theme is a developed message."
+                ],
+                questions: [
+                    ["What is setting?", "Time and place", "Title only", "Last line", "Punctuation", 0],
+                    ["What is conflict?", "Central struggle", "Character list", "Author name", "Page number", 0],
+                    ["What is plot?", "Sequence of events", "Only setting", "Cover art", "One adjective", 0],
+                    ["First person uses...", "I or we", "Only they", "No narrator", "Only you", 0],
+                    ["What is theme?", "A deeper message", "Page count", "Longest line", "Chapter list", 0],
+                    ["Traits are revealed through...", "Actions and dialogue", "Font size", "Page numbers", "Cover color", 0],
+                    ["What is climax?", "Major turning point", "Opening title", "Character list", "Setting only", 0],
+                    ["Dialogue can reveal...", "Relationships", "Page size", "Date", "Chapter count", 0],
+                    ["Third person uses...", "He, she, or they", "Only I", "No pronouns", "Only we", 0],
+                    ["Theme develops through...", "Events and choices", "Font color", "Page numbers", "Cover alone", 0]
+                ]
+            },
+            3: {
+                topic: "Informational Texts and Summaries",
+                theory: [
+                    "Facts can be verified.",
+                    "Text features organize information.",
+                    "Summaries include essential ideas."
+                ],
+                questions: [
+                    ["What is a fact?", "A verifiable statement", "A preference", "A fictional person", "A question", 0],
+                    ["A summary includes...", "Main idea and key details", "Every line", "Only opinions", "New claims", 0],
+                    ["A heading shows...", "Section topic", "Book price", "Ending", "Character mood", 0],
+                    ["Which signals opinion?", "I believe", "The chart shows", "The date is", "The report states", 0],
+                    ["Author purpose is...", "Reason for writing", "Page count", "Reader name", "Font style", 0],
+                    ["A summary should be...", "Brief and accurate", "Longer than source", "Copied exactly", "Unrelated", 0],
+                    ["A caption explains...", "An image", "The whole book", "An address", "An ending", 0],
+                    ["A reliable source is...", "Current and expert", "Anonymous and unsupported", "A random ad", "Fictional evidence", 0],
+                    ["A summary omits...", "Minor details", "Main idea", "Key evidence", "Central topic", 0],
+                    ["An index helps locate...", "Specific topics", "Rhymes", "Dialogue", "Traits", 0]
+                ]
+            },
+            4: {
+                topic: "Grammar for Clear Communication",
+                theory: [
+                    "A sentence expresses a full thought.",
+                    "Subjects and verbs must agree.",
+                    "Punctuation clarifies meaning."
+                ],
+                questions: [
+                    ["Which is complete?", "The students finished.", "Because it rained", "Running quickly", "After lunch", 0],
+                    ["The teacher ___ clearly.", "explains", "explain", "explaining", "have explain", 0],
+                    ["A direct question ends with...", "Question mark", "Comma", "Colon", "Apostrophe", 0],
+                    ["A paragraph develops...", "One main idea", "Random ideas", "Only a title", "No topic", 0],
+                    ["Which is correct?", "After class, we studied.", "After, class we studied.", "After class we, studied.", "After class we studied,", 0],
+                    ["Why revise?", "Improve clarity", "Remove all details", "Avoid punctuation", "Make everything longer", 0],
+                    ["Which agrees?", "The students are ready.", "The students is ready.", "The student are ready.", "The students be ready.", 0],
+                    ["Related clauses can use...", "A semicolon", "An apostrophe", "A quote mark", "A hyphen only", 0],
+                    ["Which is an adjective?", "Bright", "Quickly", "Run", "Under", 0],
+                    ["Coherence comes from...", "Logical order", "Random order", "Missing transitions", "Unrelated details", 0]
+                ]
+            }
+        };
+
+        const selectedSet = quizSets[unit];
+        const pathUrl = `../language-septimo.html?unit=${unit}`;
+        const byId = (id) => document.getElementById(id);
+
+        document.title = `BuhoWise - Grade 7 Language Arts - Unit ${unit}, Lesson ${lesson}`;
+        byId("lessonNo").textContent = lesson;
+        byId("lessonName").textContent = lessonNames[lesson - 1];
+        byId("intro").textContent = selectedSet.topic;
+        byId("back").href = pathUrl;
+        byId("backBottom").href = pathUrl;
+        byId("theory").innerHTML = selectedSet.theory
+            .map((item) => `<p class="theory">${item}</p>`)
+            .join("");
+
+        let questionIndex = 0;
+        let points = 0;
+        let answered = false;
+
+        function begin() {
+            byId("quiz").style.display = "block";
+            byId("scoreCard").style.display = "none";
+            questionIndex = 0;
+            points = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const questionData = selectedSet.questions[questionIndex];
+            const progress = Math.round((questionIndex / selectedSet.questions.length) * 100);
+
+            byId("counter").textContent =
+                `Question ${questionIndex + 1} of ${selectedSet.questions.length}`;
+            byId("fill").style.width = `${progress}%`;
+            byId("progressTrack").setAttribute("aria-valuenow", String(progress));
+            byId("question").textContent = questionData[0];
+            byId("feedback").style.display = "none";
+            byId("next").hidden = true;
+
+            const answerButtons = questionData.slice(1, 5).map((answerText, index) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "answer";
+                button.textContent = answerText;
+                button.addEventListener("click", () => chooseAnswer(index));
+                return button;
+            });
+
+            byId("answers").replaceChildren(...answerButtons);
+        }
+
+        function chooseAnswer(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const questionData = selectedSet.questions[questionIndex];
+            const correctIndex = Number(questionData[5]);
+
+            [...byId("answers").children].forEach((button, index) => {
+                button.disabled = true;
+                if (index === correctIndex) button.classList.add("correct");
+                if (index === selectedIndex && selectedIndex !== correctIndex) {
+                    button.classList.add("wrong");
+                }
+            });
+
+            if (selectedIndex === correctIndex) points += 1;
+
+            byId("feedback").style.display = "block";
+            byId("feedback").textContent = selectedIndex === correctIndex
+                ? "Correct!"
+                : "Almost. Review the highlighted correct answer.";
+            byId("next").hidden = false;
+        }
+
+        function advance() {
+            questionIndex += 1;
+
+            if (questionIndex < selectedSet.questions.length) {
+                showQuestion();
+                return;
+            }
+
+            byId("quiz").style.display = "none";
+            byId("scoreCircle").textContent = `${points}/${selectedSet.questions.length}`;
+            byId("scoreTitle").textContent = points >= 8 ? "Great work!" : "Good start!";
+            byId("scoreText").textContent =
+                `You scored ${points} of ${selectedSet.questions.length}.`;
+            byId("scoreCard").style.display = "block";
+        }
+
+        byId("start").addEventListener("click", begin);
+        byId("retry").addEventListener("click", begin);
+        byId("next").addEventListener("click", advance);
+    </script>
+    <script src="../buhowise-quiz-effects.js?v=2.1"></script>
+    <script src="../buhowise-progress.js"></script>
+    <script src="../buhowise-accessibility.js?v=3.6"></script>
+    <script src="../buhowise-shell.js"></script>
+    <script src="../buhowise-avatar.js"></script>
+</body>
+</html>
