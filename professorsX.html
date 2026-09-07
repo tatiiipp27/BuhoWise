@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en" class="bw-page-ready">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Accessible BuhoWise professor dashboard for classes, student points, quizzes and lesson planning.">
+<title>BuhoWise - Professor Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="buhowise-fixes.css" rel="stylesheet">
+<style>
+:root {
+    --purple:#6b4eff;
+    --orange:#ef8b3b;
+    --orange-dark:#a94408;
+    --orange-soft:#fff1e5;
+    --ink:#17151d;
+    --muted:#655f6b;
+    --line:#e7ded6;
+    --surface:#fff;
+    --nav:#141219
+}
+* {
+    box-sizing:border-box
+}
+body {
+    margin:0;
+    background:#f8f5f2;
+    color:var(--ink);
+    font:1rem/1.55 'Segoe UI',Tahoma,sans-serif
+}
+.topbar {
+    height:72px;
+    background:var(--nav);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+    position:sticky;
+    top:0;
+    z-index:20
+}
+.brand img {
+    height:52px;
+    background:#fff;
+    border-radius:11px;
+    padding:3px
+}
+.teacher-chip {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:800
+}
+.teacher-actions {
+    display:flex;
+    align-items:center;
+    gap:14px
+}
+.teacher-avatar {
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:var(--orange);
+    color:#22140a
+}
+.layout {
+    display:grid;
+    grid-template-columns:245px 1fr;
+    min-height:calc(100vh - 72px)
+}
+.sidebar {
+    background:var(--nav);
+    padding:24px 14px;
+    position:sticky;
+    top:72px;
+    height:calc(100vh - 72px)
+}
+.side-link {
+    width:100%;
+    display:flex;
+    gap:11px;
+    align-items:center;
+    border:0;
+    border-radius:13px;
+    padding:12px 14px;
+    margin:3px 0;
+    background:transparent;
+    color:#d6d1dd;
+    font-weight:800;
+    text-align:left
+}
+.side-link:hover,.side-link:focus-visible,.side-link.active {
+    background:#6b4eff35;
+    color:#fff;
+    outline:3px solid #ffd84d
+}
+.side-note {
+    margin-top:28px;
+    padding:14px;
+    border-radius:15px;
+    background:#ffffff0c;
+    color:#c7c1ce;
+    font-size:.86rem
+}
+.main {
+    padding:32px;
+    max-width:1450px;
+    width:100%
+}
+.hero {
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    margin-bottom:24px
+}
+.hero h1 {
+    font-size:clamp(2rem,5vw,3.4rem);
+    font-weight:950;
+    margin:0
+}
+.hero h1 span {
+    color:var(--orange-dark)
+}
+.hero p {
+    color:var(--muted);
+    margin:.4rem 0 0
+}
+.date-card {
+    background:#fff;
+    border-left:5px solid var(--orange);
+    border-radius:16px;
+    padding:14px 18px;
+    min-width:220px
+}
+.stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:22px
+}
+.stat,.panel {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:21px;
+    box-shadow:0 10px 28px #321b0909
+}
+.stat {
+    padding:18px
+}
+.stat i {
+    font-size:1.45rem;
+    color:var(--orange-dark)
+}
+.stat strong {
+    display:block;
+    font-size:1.75rem;
+    margin-top:6px
+}
+.stat span {
+    color:var(--muted)
+}
+.section {
+    display:none
+}
+.section.active {
+    display:block
+}
+.grid {
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:20px
+}
+.panel {
+    padding:22px;
+    margin-bottom:20px
+}
+.panel h2 {
+    font-weight:900;
+    font-size:1.35rem
+}
+.muted {
+    color:var(--muted)
+}
+.action-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px
+}
+.action-card {
+    border:2px solid var(--line);
+    border-radius:18px;
+    padding:18px;
+    background:#fff;
+    text-align:left;
+    color:var(--ink)
+}
+.action-card:hover,.action-card:focus-visible {
+    border-color:var(--orange);
+    outline:3px solid #ffd84d;
+    transform:translateY(-2px)
+}
+.action-card i {
+    font-size:1.65rem;
+    color:var(--orange-dark)
+}
+.action-card strong {
+    display:block;
+    margin-top:9px
+}
+.action-card span {
+    display:block;
+    color:var(--muted);
+    font-size:.9rem
+}
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px
+}
+.field label {
+    display:block;
+    font-weight:800;
+    margin-bottom:5px
+}
+.field input,.field select,.field textarea {
+    width:100%;
+    min-height:46px;
+    border:2px solid var(--line);
+    border-radius:12px;
+    padding:10px 12px;
+    background:#fff;
+    color:var(--ink)
+}
+.field textarea {
+    min-height:90px;
+    resize:vertical
+}
+.field input:focus,.field select:focus,.field textarea:focus {
+    outline:3px solid #ffd84d;
+    border-color:var(--purple)
+}
+.span-2 {
+    grid-column:1/-1
+}
+.btn-main,.btn-soft,.delete-btn {
+    border:0;
+    border-radius:12px;
+    padding:11px 16px;
+    font-weight:900
+}
+.btn-main {
+    background:var(--orange-dark);
+    color:#fff
+}
+.btn-soft {
+    background:#eeeaff;
+    color:#4d35c6
+}
+.delete-btn {
+    padding:7px 10px;
+    background:#fff0f2;
+    color:#9b1c35
+}
+.item-list {
+    list-style:none;
+    padding:0;
+    margin:14px 0 0;
+    display:grid;
+    gap:10px
+}
+.item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    padding:13px 14px;
+    background:var(--orange-soft);
+    border-radius:14px
+}
+.item strong,.item small {
+    display:block
+}
+.status {
+    min-height:24px;
+    color:#28664f;
+    font-weight:800;
+    margin-top:8px
+}
+.table-wrap {
+    overflow-x:auto
+}
+.student-table {
+    width:100%;
+    border-collapse:collapse
+}
+.student-table th,.student-table td {
+    text-align:left;
+    padding:12px;
+    border-bottom:1px solid var(--line)
+}
+.student-table th {
+    color:var(--orange-dark)
+}
+.badge-points {
+    font-weight:900;
+    color:var(--purple)
+}
+.accessibility-btn {
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    width:60px;
+    height:60px;
+    border:0;
+    border-radius:50%;
+    background:var(--purple);
+    color:#fff;
+    font-size:1.5rem;
+    z-index:999
+}
+.accessibility-panel {
+    position:fixed;
+    right:22px;
+    bottom:94px;
+    width:min(310px,calc(100vw - 30px));
+    padding:22px;
+    border:2px solid #ddd5ff;
+    border-radius:22px;
+    background:#fff;
+    display:none;
+    z-index:999;
+    font-size:16px !important
+}
+.accessibility-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px
+}
+.accessibility-grid button {
+    padding:11px;
+    border:0;
+    border-radius:12px;
+    background:#f5f2ff;
+    color:#5136d8;
+    font-weight:800
+}
+.btn-reset {
+    grid-column:span 2;
+    background:#b4233f!important;
+    color:#fff!important
+}
+/* Keep the final logo visible without the old white tile. */ .brand img {
+        width: auto;
+        height: 56px;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        object-fit: contain;
+}
+/* Complete dark theme for the professor workspace. */ body.professor-page.dark-mode {
+        --ink: #f7f5ff;
+        --muted: #d3cedd;
+        --line: #443a50;
+        --surface: #211d29;
+        --orange-soft: #34271f;
+        --orange-dark: #ff9b57;
+        background: #121014 !important;
+        color: var(--ink) !important;
+}
+.professor-page.dark-mode .main, .professor-page.dark-mode .layout {
+        background: #121014 !important;
+        color: var(--ink) !important;
+}
+.professor-page.dark-mode .date-card, .professor-page.dark-mode .stat, .professor-page.dark-mode .panel, .professor-page.dark-mode .action-card {
+        border-color: var(--line) !important;
+        background: var(--surface) !important;
+        color: var(--ink) !important;
+}
+.professor-page.dark-mode .field input, .professor-page.dark-mode .field select, .professor-page.dark-mode .field textarea {
+        border-color: var(--line) !important;
+        background: #17131e !important;
+        color: var(--ink) !important;
+}
+.professor-page.dark-mode .item {
+        background: var(--orange-soft) !important;
+        color: var(--ink) !important;
+}
+.professor-page.dark-mode .delete-btn {
+        background: #4a1f2b !important;
+        color: #ffdce5 !important;
+}
+.professor-page.dark-mode .btn-main {
+        background: #b94d0e !important;
+        color: #fff !important;
+}
+.professor-page.dark-mode .btn-soft {
+        background: #3b3157 !important;
+        color: #ded4ff !important;
+}
+.professor-page.dark-mode .status {
+        color: #75e6bd !important;
+}
+.professor-page.dark-mode .accessibility-panel {
+        border-color: var(--line) !important;
+        background: var(--surface) !important;
+        color: var(--ink) !important;
+}
+body.professor-page.high-contrast {
+    background: #000 !important;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .main,
+body.professor-page.high-contrast .layout {
+    background: #000 !important;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .topbar,
+body.professor-page.high-contrast .sidebar {
+    background: #000 !important;
+    border-color: #fff !important;
+}
+body.professor-page.high-contrast .date-card,
+body.professor-page.high-contrast .stat,
+body.professor-page.high-contrast .panel,
+body.professor-page.high-contrast .action-card,
+body.professor-page.high-contrast .accessibility-panel {
+    border: 2px solid #fff !important;
+    background: #000 !important;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .hero h1,
+body.professor-page.high-contrast .hero h1 span,
+body.professor-page.high-contrast .hero p,
+body.professor-page.high-contrast .panel h2,
+body.professor-page.high-contrast .stat span,
+body.professor-page.high-contrast .action-card span,
+body.professor-page.high-contrast .muted,
+body.professor-page.high-contrast .side-note,
+body.professor-page.high-contrast .field label,
+body.professor-page.high-contrast .student-table th,
+body.professor-page.high-contrast .student-table td {
+    color: #fff !important;
+}
+body.professor-page.high-contrast .stat i,
+body.professor-page.high-contrast .action-card i,
+body.professor-page.high-contrast .student-table th,
+body.professor-page.high-contrast .badge-points,
+body.professor-page.high-contrast .hero h1 span {
+    color: #ff0 !important;
+}
+body.professor-page.high-contrast .field input,
+body.professor-page.high-contrast .field select,
+body.professor-page.high-contrast .field textarea {
+    border-color: #fff !important;
+    background: #000 !important;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .item {
+    background: #000 !important;
+    border: 1px solid #fff;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .btn-main,
+body.professor-page.high-contrast .btn-soft,
+body.professor-page.high-contrast .delete-btn,
+body.professor-page.high-contrast .accessibility-grid button {
+    background: #ff0 !important;
+    color: #000 !important;
+}
+body.professor-page.high-contrast .btn-reset {
+    background: #f00 !important;
+    color: #fff !important;
+}
+body.professor-page.high-contrast .status {
+    color: #0f0 !important;
+}
+@media (max-width: 900px) {
+        .layout {
+                grid-template-columns: 1fr;
+    }
+        .sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 6px;
+                height: auto;
+                padding: 10px;
+                overflow: visible;
+    }
+        .side-link {
+                justify-content: center;
+                min-width: 0;
+                margin: 0;
+                text-align: center;
+                white-space: normal;
+    }
+        .side-note {
+                display: none;
+    }
+        .stats {
+                grid-template-columns: 1fr 1fr;
+    }
+        .grid {
+                grid-template-columns: 1fr;
+    }
+        .main {
+                padding: 22px 16px;
+    }
+        .hero {
+                align-items: flex-start;
+                flex-direction: column;
+    }
+        .action-grid {
+                grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 520px) {
+        .sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+        .stats,     .action-grid,     .form-grid {
+                grid-template-columns: 1fr;
+    }
+        .span-2 {
+                grid-column: auto;
+    }
+        .teacher-chip span:not(.teacher-avatar) {
+                display: none;
+    }
+}
+</style>
+    <link rel="icon" type="image/png" href="img/BuhoWise-favicon.png">
+    <link rel="apple-touch-icon" href="img/BuhoWise-favicon.png">
+</head>
+<body class="professor-page">
+<a class="bw-skip-link" href="#main">Skip to dashboard</a>
+<header class="topbar">
+<a class="brand" href="professorsX.html">
+<img src="img/BuhoWise-logo-navbar-straight.png" alt="BuhoWise Professor Dashboard">
+</a>
+<div class="teacher-actions">
+<div class="teacher-chip">
+<span id="professorName">Professor workspace</span>
+<span class="teacher-avatar" aria-hidden="true">P</span>
+</div>
+<a class="bw-change-role" id="professorChangeRole" href="index1.html">
+<i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+<span>Change Role</span>
+</a>
+</div>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Professor dashboard sections">
+<button class="side-link active" data-section="overview">
+<i class="bi bi-grid-1x2-fill" aria-hidden="true">
+</i> Overview</button>
+<button class="side-link" data-section="classes">
+<i class="bi bi-people-fill" aria-hidden="true">
+</i> Classes</button>
+<button class="side-link" data-section="students">
+<i class="bi bi-award-fill" aria-hidden="true">
+</i> Student Points</button>
+<button class="side-link" data-section="ranking">
+<i class="bi bi-trophy-fill" aria-hidden="true">
+</i> Ranking</button>
+<button class="side-link" data-section="quizzes">
+<i class="bi bi-ui-checks-grid" aria-hidden="true">
+</i> Quiz Builder</button>
+<button class="side-link" data-section="planner">
+<i class="bi bi-calendar-check" aria-hidden="true">
+</i> Lesson Planner</button>
+<a class="side-link" href="teacherss.html">
+<i class="bi bi-life-preserver" aria-hidden="true">
+</i> Teaching Support</a>
+<div class="side-note">
+<strong>Accessible by design</strong>
+<br>Every action works with keyboard navigation, clear labels and screen-reader status messages.</div>
+</nav>
+<main class="main" id="main">
+<header class="hero">
+<div>
+<p class="text-uppercase fw-bold mb-1" style="color:var(--orange-dark)">Professor Dashboard</p>
+<h1>Teach clearly. <span>Celebrate progress.</span>
+</h1>
+<p>Manage classroom activities and support every learner from one place.</p>
+</div>
+<div class="date-card">
+<strong id="today">
+</strong>
+<span class="d-block muted">Saved on this device</span>
+</div>
+</header>
+<div class="stats" aria-label="Dashboard summary">
+<article class="stat">
+<i class="bi bi-people-fill" aria-hidden="true">
+</i>
+<strong id="studentCount">5</strong>
+<span>Students</span>
+</article>
+<article class="stat">
+<i class="bi bi-easel2-fill" aria-hidden="true">
+</i>
+<strong id="classCount">0</strong>
+<span>Classes</span>
+</article>
+<article class="stat">
+<i class="bi bi-ui-checks-grid" aria-hidden="true">
+</i>
+<strong id="quizCount">0</strong>
+<span>Quizzes</span>
+</article>
+<article class="stat">
+<i class="bi bi-stars" aria-hidden="true">
+</i>
+<strong id="pointsCount">0</strong>
+<span>Points awarded</span>
+</article>
+</div>
+<section class="section active" id="overview" aria-labelledby="overviewTitle">
+<div class="panel">
+<h2 id="overviewTitle">Quick Actions</h2>
+<p class="muted">Choose an action to open its workspace.</p>
+<div class="action-grid">
+<button class="action-card" data-open="students">
+<i class="bi bi-award-fill" aria-hidden="true">
+</i>
+<strong>Give Points</strong>
+<span>Recognize effort and update the student ranking.</span>
+</button>
+<button class="action-card" data-open="classes">
+<i class="bi bi-door-open-fill" aria-hidden="true">
+</i>
+<strong>Join or Create a Class</strong>
+<span>Use a class code or start a new classroom.</span>
+</button>
+<button class="action-card" data-open="quizzes">
+<i class="bi bi-ui-checks-grid" aria-hidden="true">
+</i>
+<strong>Create a Quiz</strong>
+<span>Build and save an accessible quiz draft.</span>
+</button>
+<button class="action-card" data-open="planner">
+<i class="bi bi-calendar-plus" aria-hidden="true">
+</i>
+<strong>Plan a Lesson</strong>
+<span>Organize the next learning priority.</span>
+</button>
+<button class="action-card" data-open="ranking">
+<i class="bi bi-trophy-fill" aria-hidden="true">
+</i>
+<strong>View Ranking</strong>
+<span>See the leaderboard without leaving this dashboard.</span>
+</button>
+<a class="action-card" href="teacherss.html">
+<i class="bi bi-universal-access" aria-hidden="true">
+</i>
+<strong>Teaching Support</strong>
+<span>Open inclusive teaching resources.</span>
+</a>
+</div>
+</div>
+</section>
+<section class="section" id="classes" aria-labelledby="classesTitle">
+<div class="grid">
+<div class="panel">
+<h2 id="classesTitle">Create a Class</h2>
+<p class="muted">A unique code will be created for your students.</p>
+<form id="createClass" class="form-grid">
+<div class="field">
+<label for="className">Class name</label>
+<input id="className" required maxlength="50" placeholder="Language Arts 7A">
+</div>
+<div class="field">
+<label for="classGrade">Grade</label>
+<select id="classGrade">
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option>Grade 9</option>
+</select>
+</div>
+<button class="btn-main span-2" type="submit">Create Class</button>
+</form>
+<p class="status" id="classStatus" role="status" aria-live="polite">
+</p>
+</div>
+<div class="panel">
+<h2>Join a Class</h2>
+<p class="muted">Enter a six-character invitation code.</p>
+<form id="joinClass">
+<div class="field">
+<label for="joinCode">Class code</label>
+<input id="joinCode" required minlength="6" maxlength="6" pattern="[A-Za-z0-9]{6}" autocomplete="off" placeholder="AB12CD">
+</div>
+<button class="btn-soft mt-2" type="submit">Join Class</button>
+</form>
+<p class="status" id="joinStatus" role="status" aria-live="polite">
+</p>
+</div>
+</div>
+<div class="panel">
+<h2>Your Classes</h2>
+<ul class="item-list" id="classList">
+</ul>
+</div>
+</section>
+<section class="section" id="students" aria-labelledby="pointsTitle">
+<div class="grid">
+<div class="panel">
+<h2 id="pointsTitle">Give Student Points</h2>
+<p class="muted">Points appear in the private professor ranking on this browser.</p>
+<form id="pointsForm" class="form-grid">
+<div class="field">
+<label for="studentSelect">Student</label>
+<select id="studentSelect">
+</select>
+</div>
+<div class="field">
+<label for="pointsValue">Points</label>
+<input id="pointsValue" type="number" min="10" max="500" step="10" value="50" required>
+</div>
+<div class="field span-2">
+<label for="pointsReason">Reason</label>
+<input id="pointsReason" required maxlength="70" placeholder="Excellent teamwork">
+</div>
+<button class="btn-main span-2" type="submit">Award Points</button>
+</form>
+<p class="status" id="pointsStatus" role="status" aria-live="polite">
+</p>
+</div>
+<div class="panel">
+<h2>Positive Recognition</h2>
+<p class="muted">Use points consistently and explain what the learner did well. This keeps the ranking encouraging and fair.</p>
+<button class="btn-soft" type="button" data-open="ranking">Open Professor Ranking</button>
+</div>
+</div>
+<div class="panel">
+<h2>Student Overview</h2>
+<div class="table-wrap">
+<table class="student-table">
+<caption class="visually-hidden">Students and their current awarded bonus points</caption>
+<thead>
+<tr>
+<th scope="col">Student</th>
+<th scope="col">Focus</th>
+<th scope="col">Bonus points</th>
+</tr>
+</thead>
+<tbody id="studentRows">
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="section" id="quizzes" aria-labelledby="quizTitle">
+<div class="grid">
+<div class="panel">
+<h2 id="quizTitle">Create a Quiz</h2>
+<p class="muted">Save an accessible quiz draft with clear instructions and one starting question.</p>
+<form id="quizForm" class="form-grid">
+<div class="field">
+<label for="quizName">Quiz title</label>
+<input id="quizName" required maxlength="70" placeholder="Main Ideas Review">
+</div>
+<div class="field">
+<label for="quizSubject">Subject</label>
+<select id="quizSubject">
+<option>Language Arts</option>
+<option>Mathematics</option>
+</select>
+</div>
+<div class="field">
+<label for="quizGrade">Grade</label>
+<select id="quizGrade">
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option>Grade 9</option>
+</select>
+</div>
+<div class="field">
+<label for="quizDue">Due date</label>
+<input id="quizDue" type="date" required>
+</div>
+<div class="field span-2">
+<label for="quizQuestion">First question</label>
+<textarea id="quizQuestion" required maxlength="240" placeholder="Write a short, direct question.">
+</textarea>
+</div>
+<button class="btn-main span-2" type="submit">Save Quiz Draft</button>
+</form>
+<p class="status" id="quizStatus" role="status" aria-live="polite">
+</p>
+</div>
+<div class="panel">
+<h2>Accessible Quiz Checklist</h2>
+<ul>
+<li>Use plain, direct language.</li>
+<li>Do not rely on color alone.</li>
+<li>Add text descriptions to meaningful images.</li>
+<li>Allow enough time and keyboard navigation.</li>
+</ul>
+</div>
+</div>
+<div class="panel">
+<h2>Saved Quiz Drafts</h2>
+<ul class="item-list" id="quizList">
+</ul>
+</div>
+</section>
+<section class="section" id="planner" aria-labelledby="plannerTitle">
+<div class="panel">
+<h2 id="plannerTitle">Lesson Planner</h2>
+<p class="muted">Add your next classroom priority.</p>
+<form id="planForm" class="form-grid">
+<div class="field">
+<label for="planText">Lesson priority</label>
+<input id="planText" required maxlength="80" placeholder="Review supporting details">
+</div>
+<div class="field">
+<label for="planGrade">Grade</label>
+<select id="planGrade">
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option>Grade 9</option>
+</select>
+</div>
+<button class="btn-main span-2" type="submit">Add to Plan</button>
+</form>
+<p class="status" id="planStatus" role="status" aria-live="polite">
+</p>
+<ul class="item-list" id="planList">
+</ul>
+</div>
+</section>
+<section class="section" id="ranking" aria-labelledby="teacherRankingTitle">
+<div class="panel">
+<h2 id="teacherRankingTitle" tabindex="-1">Student Ranking</h2>
+<p class="muted">Lesson points and bonus points awarded by professors are combined. This view is available inside the professor workspace.</p>
+<div class="table-wrap">
+<table class="student-table">
+<caption>Current student ranking on this device</caption>
+<thead>
+<tr>
+<th scope="col">Rank</th>
+<th scope="col">Student</th>
+<th scope="col">Focus</th>
+<th scope="col">Lesson points</th>
+<th scope="col">Bonus points</th>
+<th scope="col">Total</th>
+</tr>
+</thead>
+<tbody id="teacherRankingRows">
+</tbody>
+</table>
+</div>
+<p class="status" id="teacherRankingStatus" role="status" aria-live="polite">
+</p>
+</div>
+</section>
+</main>
+</div>
+<button class="accessibility-btn" type="button" data-bw-accessibility="toggle-panel" aria-label="Accessibility Menu" aria-controls="accessibilityPanel" aria-expanded="false">
+<i class="bi bi-universal-access" aria-hidden="true">
+</i>
+</button>
+<div class="accessibility-panel" id="accessibilityPanel">
+<h2 class="h5 text-center">Accessibility Tools</h2>
+<div class="accessibility-grid">
+<button data-bw-accessibility="read">Read</button>
+<button data-bw-accessibility="stop">Stop</button>
+<button data-bw-accessibility="text-up">Text +</button>
+<button data-bw-accessibility="text-down">Text -</button>
+<button data-bw-accessibility="dark">Dark</button>
+<button data-bw-accessibility="contrast">Contrast</button>
+<button data-bw-accessibility="dyslexia">Dyslexia</button>
+<button class="btn-reset" data-bw-accessibility="reset">Reset</button>
+</div>
+</div>
+<script>
+setTimeout(()=>document.documentElement.classList.add('bw-page-ready'),1500);
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}},write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+const localProfile=read("buhowiseLocalProfile",{}),studentProfile=read("buhowiseStudentProfile",{});
+const currentStudentName=String(studentProfile.name||(localProfile.role==="student"?localProfile.name:"")||"BuhoWise Student").trim()||"BuhoWise Student";
+const seed=[{name:"Emma R.",focus:"Mathematics"},{name:"Noah M.",focus:"Language Arts"},{name:"Sofia L.",focus:"All Subjects"},{name:"Liam C.",focus:"Mathematics"},{name:currentStudentName,focus:"All Subjects"}];
+let classes=read("buhowiseProfessorClasses",[]),quizzes=read("buhowiseProfessorQuizzes",[]),plans=read("buhowiseProfessorPlans",[]),awards=read("buhowiseAwardedPoints",{});
+const professorProfile=read("buhowiseProfessorProfile",{});
+const professorDisplayName=professorProfile.name||(localProfile.role==='professor'?localProfile.name:'');
+if(professorDisplayName){document.getElementById('professorName').textContent=`${professorDisplayName} · Professor workspace`;}
+document.getElementById('professorChangeRole').addEventListener('click',()=>{try{localStorage.removeItem('buhowiseRole')}catch(error){}});
+const show=id=>{document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.side-link[data-section]').forEach(b=>{const on=b.dataset.section===id;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});document.getElementById(id).querySelector('h2')?.focus({preventScroll:true});};
+document.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>show(b.dataset.section));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>show(b.dataset.open));
+document.getElementById('today').textContent=new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric'}).format(new Date());
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function renderRanking(){const lessonPoints={'Emma R.':2800,'Noah M.':2500,'Sofia L.':2200,'Liam C.':1800};lessonPoints[currentStudentName]=Object.keys(read('buhowiseCompletedLessons',{})).length*100;const rows=seed.map(student=>{const lessons=Number(lessonPoints[student.name]||0),bonus=lessons>0?Number(awards[student.name]||0):0;return{...student,lessons,bonus,total:lessons+bonus}}).sort((a,b)=>b.total-a.total);document.getElementById('teacherRankingRows').innerHTML=rows.map((student,index)=>`<tr><td><strong>${index+1}</strong></td><td>${escape(student.name)}</td><td>${escape(student.focus)}</td><td>${student.lessons.toLocaleString('en')}</td><td>${student.bonus.toLocaleString('en')}</td><td class="badge-points">${student.total.toLocaleString('en')}</td></tr>`).join('');document.getElementById('teacherRankingStatus').textContent=`Ranking updated. ${rows[0].name} is currently in first place with ${rows[0].total.toLocaleString('en')} points.`;}
+function render(){document.getElementById('classCount').textContent=classes.length;document.getElementById('quizCount').textContent=quizzes.length;document.getElementById('pointsCount').textContent=Object.values(awards).reduce((a,b)=>a+Number(b||0),0);document.getElementById('studentSelect').innerHTML=seed.map(s=>`<option>${escape(s.name)}</option>`).join('');document.getElementById('studentRows').innerHTML=seed.map(s=>`<tr><td>${escape(s.name)}</td><td>${escape(s.focus)}</td><td class="badge-points">${Number(awards[s.name]||0).toLocaleString('en')}</td></tr>`).join('');document.getElementById('classList').innerHTML=classes.length?classes.map((c,i)=>`<li class="item"><span><strong>${escape(c.name)} · ${escape(c.grade)}</strong><small>Class code: ${escape(c.code)}</small></span><button class="delete-btn" data-remove-class="${i}" aria-label="Remove ${escape(c.name)}">Remove</button></li>`).join(''):'<li class="muted">No classes yet.</li>';document.getElementById('quizList').innerHTML=quizzes.length?quizzes.map((q,i)=>`<li class="item"><span><strong>${escape(q.name)}</strong><small>${escape(q.subject)} · ${escape(q.grade)} · Due ${escape(q.due)}</small></span><button class="delete-btn" data-remove-quiz="${i}" aria-label="Remove ${escape(q.name)}">Remove</button></li>`).join(''):'<li class="muted">No quiz drafts yet.</li>';document.getElementById('planList').innerHTML=plans.length?plans.map((p,i)=>`<li class="item"><span><strong>${escape(p.text)}</strong><small>${escape(p.grade)}</small></span><button class="delete-btn" data-remove-plan="${i}" aria-label="Remove ${escape(p.text)}">Remove</button></li>`).join(''):'<li class="muted">No lesson priorities yet.</li>';}
+document.getElementById('createClass').onsubmit=e=>{e.preventDefault();const code=Math.random().toString(36).slice(2,8).toUpperCase();classes.push({name:className.value.trim(),grade:classGrade.value,code});write('buhowiseProfessorClasses',classes);classStatus.textContent=`Class created. The class code is ${code}.`;e.target.reset();render()};
+document.getElementById('joinClass').onsubmit=e=>{e.preventDefault();const code=joinCode.value.toUpperCase();classes.push({name:`Joined Class ${code}`,grade:'Shared class',code});write('buhowiseProfessorClasses',classes);joinStatus.textContent=`You joined class ${code}.`;e.target.reset();render()};
+document.getElementById('pointsForm').onsubmit=e=>{e.preventDefault();const name=studentSelect.value,amount=Number(pointsValue.value);awards[name]=Number(awards[name]||0)+amount;write('buhowiseAwardedPoints',awards);write('buhowiseLastAward',{name,amount,reason:pointsReason.value.trim()});pointsStatus.textContent=`${amount} points awarded to ${name} for ${pointsReason.value.trim()}.`;e.target.reset();pointsValue.value=50;render();renderRanking()};
+document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();quizzes.push({name:quizName.value.trim(),subject:quizSubject.value,grade:quizGrade.value,due:quizDue.value,question:quizQuestion.value.trim()});write('buhowiseProfessorQuizzes',quizzes);quizStatus.textContent='Quiz draft saved on this device.';e.target.reset();render()};
+document.getElementById('planForm').onsubmit=e=>{e.preventDefault();plans.push({text:planText.value.trim(),grade:planGrade.value});write('buhowiseProfessorPlans',plans);planStatus.textContent='Lesson priority added.';e.target.reset();render()};
+document.addEventListener('click',e=>{const actions=[['removeClass','buhowiseProfessorClasses',()=>classes,i=>classes.splice(i,1)],['removeQuiz','buhowiseProfessorQuizzes',()=>quizzes,i=>quizzes.splice(i,1)],['removePlan','buhowiseProfessorPlans',()=>plans,i=>plans.splice(i,1)]];actions.forEach(([key,store,get,remove])=>{const value=e.target.dataset[key];if(value!==undefined){remove(Number(value));write(store,get());render()}})});render();renderRanking();
+</script>
+<script src="buhowise-accessibility.js?v=3.6"></script></body>
+</html>
