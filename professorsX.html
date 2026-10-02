@@ -58,6 +58,32 @@ body {
     align-items:center;
     gap:14px
 }
+.professor-menu-toggle {
+    display:none;
+    flex-shrink:0;
+    width:44px;
+    height:44px;
+    padding:10px;
+    border:1px solid #ffffff80;
+    border-radius:10px;
+    background:transparent;
+    color:#fff;
+    cursor:pointer;
+}
+.professor-menu-toggle span {
+    display:block;
+    width:22px;
+    height:2px;
+    border-radius:2px;
+    background:#fff !important;
+}
+.professor-menu-toggle:hover {
+    background:#ffffff18;
+}
+.professor-menu-toggle:focus-visible {
+    outline:3px solid #ffd84d;
+    outline-offset:3px;
+}
 .teacher-avatar {
     width:40px;
     height:40px;
@@ -109,7 +135,8 @@ body {
 .main {
     padding:32px;
     max-width:1450px;
-    width:100%
+    width:100%;
+    min-width:0
 }
 .hero {
     display:flex;
@@ -480,23 +507,52 @@ body.professor-page.high-contrast .status {
     color: #0f0 !important;
 }
 @media (max-width: 900px) {
+        .topbar {
+                padding:0 12px;
+                gap:12px;
+    }
+        .teacher-actions {
+                gap:10px;
+                min-width:0;
+    }
+        .teacher-chip {
+                min-width:0;
+    }
+        #professorName {
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+    }
+        .teacher-avatar {
+                flex-shrink:0;
+    }
+        .professor-menu-toggle {
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                gap:5px;
+    }
         .layout {
                 grid-template-columns: 1fr;
     }
         .sidebar {
                 position: static;
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                display: none;
                 gap: 6px;
                 height: auto;
-                padding: 10px;
+                padding: 12px 16px 18px;
                 overflow: visible;
     }
+        .sidebar.is-open {
+                display:flex;
+                flex-direction:column;
+    }
         .side-link {
-                justify-content: center;
+                justify-content: flex-start;
                 min-width: 0;
                 margin: 0;
-                text-align: center;
+                text-align: left;
                 white-space: normal;
     }
         .side-note {
@@ -520,17 +576,21 @@ body.professor-page.high-contrast .status {
     }
 }
 @media (max-width: 520px) {
-        .sidebar {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
         .stats,     .action-grid,     .form-grid {
                 grid-template-columns: 1fr;
     }
         .span-2 {
                 grid-column: auto;
     }
-        .teacher-chip span:not(.teacher-avatar) {
+        .teacher-chip {
                 display: none;
+    }
+        .teacher-actions .bw-change-role {
+                padding:8px 10px !important;
+                font-size:.875rem;
+                gap:6px;
+                white-space:nowrap;
+                flex-shrink:0;
     }
 }
 </style>
@@ -552,10 +612,17 @@ body.professor-page.high-contrast .status {
 <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
 <span>Change Role</span>
 </a>
+<button class="professor-menu-toggle" id="professorMenuToggle" type="button"
+        aria-label="Open teacher menu" aria-controls="professorNavigation"
+        aria-expanded="false" translate="no">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+</button>
 </div>
 </header>
 <div class="layout">
-<nav class="sidebar" aria-label="Professor dashboard sections">
+<nav class="sidebar" id="professorNavigation" aria-label="Professor dashboard sections">
 <button class="side-link active" data-section="overview">
 <i class="bi bi-grid-1x2-fill" aria-hidden="true">
 </i> Overview</button>
@@ -881,6 +948,58 @@ body.professor-page.high-contrast .status {
 </div>
 </div>
 <script>
+// One disclosure menu on small screens; the sidebar stays visible on desktop.
+(function () {
+    const toggle = document.getElementById('professorMenuToggle');
+    const navigation = document.getElementById('professorNavigation');
+    const mobileLayout = window.matchMedia('(max-width: 900px)');
+
+    function updateMenuLabel() {
+        const spanish = document.documentElement.lang.startsWith('es');
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-label', spanish
+            ? (open ? 'Cerrar menú docente' : 'Abrir menú docente')
+            : (open ? 'Close teacher menu' : 'Open teacher menu'));
+    }
+
+    function setMenuOpen(open, restoreFocus = false) {
+        const expanded = mobileLayout.matches && open;
+        navigation.classList.toggle('is-open', expanded);
+        toggle.setAttribute('aria-expanded', String(expanded));
+        updateMenuLabel();
+        if (restoreFocus && mobileLayout.matches) toggle.focus();
+    }
+
+    toggle.addEventListener('click', function () {
+        setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    navigation.addEventListener('click', function (event) {
+        if (!event.target.closest('.side-link')) return;
+        setMenuOpen(false);
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!navigation.contains(event.target) && !toggle.contains(event.target)) {
+            setMenuOpen(false);
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            event.preventDefault();
+            setMenuOpen(false, true);
+        }
+    });
+
+    mobileLayout.addEventListener('change', function () {
+        const focusWasInMenu = navigation.contains(document.activeElement);
+        setMenuOpen(false, focusWasInMenu);
+    });
+    document.addEventListener('buhowise:language-change', updateMenuLabel);
+    setMenuOpen(false);
+})();
+
 setTimeout(()=>document.documentElement.classList.add('bw-page-ready'),1500);
 const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}},write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
 const localProfile=read("buhowiseLocalProfile",{}),studentProfile=read("buhowiseStudentProfile",{});
@@ -891,7 +1010,22 @@ const professorProfile=read("buhowiseProfessorProfile",{});
 const professorDisplayName=professorProfile.name||(localProfile.role==='professor'?localProfile.name:'');
 if(professorDisplayName){document.getElementById('professorName').textContent=`${professorDisplayName} · Professor workspace`;}
 document.getElementById('professorChangeRole').addEventListener('click',()=>{try{localStorage.removeItem('buhowiseRole')}catch(error){}});
-const show=id=>{document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.side-link[data-section]').forEach(b=>{const on=b.dataset.section===id;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});document.getElementById(id).querySelector('h2')?.focus({preventScroll:true});};
+function show(id) {
+    document.querySelectorAll('.section').forEach(function (section) {
+        section.classList.toggle('active', section.id === id);
+    });
+    document.querySelectorAll('.side-link[data-section]').forEach(function (link) {
+        const active = link.dataset.section === id;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+    });
+    const heading = document.getElementById(id).querySelector('h2');
+    if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({preventScroll: true});
+    }
+}
 document.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>show(b.dataset.section));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>show(b.dataset.open));
 document.getElementById('today').textContent=new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric'}).format(new Date());
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -904,5 +1038,5 @@ document.getElementById('quizForm').onsubmit=e=>{e.preventDefault();quizzes.push
 document.getElementById('planForm').onsubmit=e=>{e.preventDefault();plans.push({text:planText.value.trim(),grade:planGrade.value});write('buhowiseProfessorPlans',plans);planStatus.textContent='Lesson priority added.';e.target.reset();render()};
 document.addEventListener('click',e=>{const actions=[['removeClass','buhowiseProfessorClasses',()=>classes,i=>classes.splice(i,1)],['removeQuiz','buhowiseProfessorQuizzes',()=>quizzes,i=>quizzes.splice(i,1)],['removePlan','buhowiseProfessorPlans',()=>plans,i=>plans.splice(i,1)]];actions.forEach(([key,store,get,remove])=>{const value=e.target.dataset[key];if(value!==undefined){remove(Number(value));write(store,get());render()}})});render();renderRanking();
 </script>
-<script src="buhowise-accessibility.js?v=3.6"></script></body>
+<script src="buhowise-accessibility.js?v=3.7"></script></body>
 </html>
